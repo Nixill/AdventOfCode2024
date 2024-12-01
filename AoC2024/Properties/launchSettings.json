@@ -1,0 +1,13 @@
+{
+  "profiles": {
+    "Main": {
+      "workingDirectory": ".",
+      "commandName": "Project"
+    },
+    "Latest": {
+      "workingDirectory": ".",
+      "commandName": "Project",
+      "commandLineArgs": "latest"
+    }
+  }
+}
