@@ -180,4 +180,10 @@ public static class Program
     variable = input;
     return input;
   }
+
+  internal static T AssignTo<T>(this T input, out T variable)
+  {
+    variable = input;
+    return input;
+  }
 }
