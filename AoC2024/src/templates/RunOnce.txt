@@ -1,0 +1,27 @@
+namespace Nixill.AdventOfCode;
+
+public class DayX
+{
+  public DayX(string fname, StreamReader input)
+  {
+    foreach (string line in input.GetLines())
+    {
+      
+    }
+  }
+
+  static Dictionary<string, DayX> results = new();
+
+  static DayX Get(string fname, StreamReader input)
+  {
+    if (!results.ContainsKey(fname))
+      results[fname] = new DayX(fname, input);
+    return results[fname];
+  }
+
+  public static string Part1(string fname, StreamReader input)
+  {
+    DayX result = Get(fname, input);
+    return "Hi!";
+  }
+}

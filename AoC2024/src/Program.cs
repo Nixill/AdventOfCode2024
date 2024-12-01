@@ -1,6 +1,8 @@
 ﻿using System.Diagnostics;
 using System.Reflection;
 
+namespace Nixill.AdventOfCode;
+
 public static class Program
 {
   static void Main(string[] args)
@@ -15,20 +17,21 @@ public static class Program
     }
 
     Type? dayType = null;
+    string ns = Assign(typeof(Program).Namespace, out string? nsQuestion) == null ? "" : nsQuestion! + ".";
 
     if (which == "latest")
     {
       foreach (int i in Enumerable.Range(0, 26).Reverse())
       {
         which = i.ToString();
-        dayType = Type.GetType($"Day{i}");
+        dayType = Type.GetType($"{ns}Day{i}");
         if (dayType != null) break;
       }
       Console.WriteLine($"Latest requested - Day {which} selected.");
     }
     else
     {
-      dayType = Type.GetType($"Day{which}");
+      dayType = Type.GetType($"{ns}Day{which}");
     }
 
     if (dayType == null)
@@ -170,5 +173,11 @@ public static class Program
         yield return line;
       }
     }
+  }
+
+  private static T Assign<T>(T input, out T variable)
+  {
+    variable = input;
+    return input;
   }
 }

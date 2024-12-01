@@ -1,6 +1,8 @@
 using System.Text.RegularExpressions;
 using Nixill.Utils.Extensions;
 
+namespace Nixill.AdventOfCode;
+
 public static class Day0
 {
   static Regex firstDigitRegex = new(@"^\D*(\d)");
