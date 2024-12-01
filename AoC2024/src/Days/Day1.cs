@@ -26,12 +26,13 @@ public class Day1
 
   int SortedDiffs = 0;
 
-  // I just have a little feeling (and honestly I'm curious even if it's wrong)...
+  // I just have a little feeling (okay I was wrong but I'm still curious)...
   int UnsortedDiffs = 0;
+
+  int Similarity = 0;
 
   public Day1(string fname, StreamReader input)
   {
-
     foreach (string line in input.GetLines())
     {
       (int left, int right) = Split(line);
@@ -44,6 +45,13 @@ public class Day1
     foreach ((int left, int right) in NumbersOrdered(numberCountsLeft).Zip(NumbersOrdered(numberCountsRight)))
     {
       SortedDiffs += Math.Abs(left - right);
+    }
+
+    numberCountsRight.StoreGeneratedValues = false;
+
+    foreach (var kvp in numberCountsLeft)
+    {
+      Similarity += kvp.Key * kvp.Value * numberCountsRight[kvp.Key];
     }
   }
 
@@ -60,5 +68,11 @@ public class Day1
   {
     Day1 result = Get(fname, input);
     return result.SortedDiffs.ToString();
+  }
+
+  public static string Part2(string fname, StreamReader input)
+  {
+    Day1 result = Get(fname, input);
+    return result.Similarity.ToString();
   }
 }
