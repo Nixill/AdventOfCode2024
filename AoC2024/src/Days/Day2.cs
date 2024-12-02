@@ -29,6 +29,10 @@ public class Day2 : AdventDay
           if (right - left > 3) goto nextLine;
           up = true;
         }
+        else if (left == right)
+        {
+          goto nextLine;
+        }
       }
 
       SafeLines += 1;
