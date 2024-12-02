@@ -3,7 +3,7 @@ using Nixill.Collections;
 
 namespace Nixill.AdventOfCode;
 
-public class Day1
+public class Day1 : AdventDay
 {
   DictionaryGenerator<int, int> numberCountsLeft = new AVLTreeDictionary<int, int>().WithGenerator(new DefaultGenerator<int, int>());
   DictionaryGenerator<int, int> numberCountsRight = new AVLTreeDictionary<int, int>().WithGenerator(new DefaultGenerator<int, int>());
@@ -31,9 +31,9 @@ public class Day1
 
   int Similarity = 0;
 
-  public Day1(string fname, StreamReader input)
+  public override void Run()
   {
-    foreach (string line in input.GetLines())
+    foreach (string line in InputStream.GetLines())
     {
       (int left, int right) = Split(line);
       UnsortedDiffs += Math.Abs(left - right);
@@ -53,26 +53,8 @@ public class Day1
     {
       Similarity += kvp.Key * kvp.Value * numberCountsRight[kvp.Key];
     }
-  }
 
-  static Dictionary<string, Day1> results = new();
-
-  static Day1 Get(string fname, StreamReader input)
-  {
-    if (!results.ContainsKey(fname))
-      results[fname] = new Day1(fname, input);
-    return results[fname];
-  }
-
-  public static string Part1(string fname, StreamReader input)
-  {
-    Day1 result = Get(fname, input);
-    return result.SortedDiffs.ToString();
-  }
-
-  public static string Part2(string fname, StreamReader input)
-  {
-    Day1 result = Get(fname, input);
-    return result.Similarity.ToString();
+    Part1Answer = SortedDiffs.ToString();
+    Part2Answer = Similarity.ToString();
   }
 }

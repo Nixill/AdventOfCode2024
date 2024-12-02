@@ -3,7 +3,7 @@ using Nixill.Utils.Extensions;
 
 namespace Nixill.AdventOfCode;
 
-public static class Day0
+public class Day0 : AdventDay
 {
   static Regex firstDigitRegex = new(@"^\D*(\d)");
   static Regex lastDigitRegex = new(@"(\d)\D*$");
@@ -33,11 +33,12 @@ public static class Day0
     ["0"] = 0
   };
 
-  public static string Part1(string fname, StreamReader input)
+  public override void Run()
   {
-    int sum = 0;
+    int p1sum = 0;
+    int p2sum = 0;
 
-    foreach (string line in input.GetLines())
+    foreach (string line in InputStream.GetLines())
     {
       Match mtc;
       int number = 0;
@@ -52,21 +53,11 @@ public static class Day0
         number += int.Parse(mtc.Groups[1].Value);
       }
 
-      sum += number;
-    }
+      p1sum += number;
 
-    return sum.ToString();
-  }
-
-  public static string Part2(string fname, StreamReader input)
-  {
-    int sum = 0;
-
-    foreach (string line in input.GetLines())
-    {
-      if (digits.TryMatch(line, out Match mtc))
+      if (digits.TryMatch(line, out mtc))
       {
-        int number = mappings[mtc.Captures.First().Value] * 10;
+        number = mappings[mtc.Captures.First().Value] * 10;
 
         for (Match nmtc = mtc.NextMatch(); nmtc.Success; nmtc = mtc.NextMatch())
         {
@@ -75,10 +66,11 @@ public static class Day0
 
         number += mappings[mtc.Captures.First().Value];
 
-        sum += number;
+        p2sum += number;
       }
     }
 
-    return sum.ToString();
+    Part1Answer = p1sum.ToString();
+    Part2Answer = p2sum.ToString();
   }
 }
