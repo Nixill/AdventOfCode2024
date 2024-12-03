@@ -5,7 +5,7 @@ namespace Nixill.AdventOfCode;
 
 public class Day3 : AdventDay
 {
-  static Regex FunctionParser = new(@"([a-z_\']+)\((\d+(?:,\d+)*)\)", RegexOptions.IgnoreCase);
+  static Regex FunctionParser = new(@"([a-z_\']+)\((\d+(?:,\d+)*)?\)", RegexOptions.IgnoreCase);
 
   List<D3Function> Functions = [];
 
