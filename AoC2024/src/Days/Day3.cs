@@ -5,9 +5,9 @@ namespace Nixill.AdventOfCode;
 
 public class Day3 : AdventDay
 {
-  static Regex FunctionParser = new(@"([a-z_]+)\((\d+(?:,\d+)*)\)", RegexOptions.IgnoreCase);
+  static Regex FunctionParser = new(@"([a-z_\']+)\((\d+(?:,\d+)*)\)", RegexOptions.IgnoreCase);
 
-  IDictionary<string, List<List<int>>> Functions = new EmptyConstructorGenerator<string, List<List<int>>>().Wrap();
+  List<D3Function> Functions = [];
 
   public override void Run()
   {
@@ -17,25 +17,51 @@ public class Day3 : AdventDay
     {
       if ((mtc.Groups[2].Value ?? "") == "")
       {
-        Functions[mtc.Groups[1].Value].Add([]);
+        Functions.Add(new D3Function
+        {
+          Name = mtc.Groups[1].Value,
+          Index = mtc.Index + mtc.Groups[1].Length,
+          Params = []
+        });
       }
       else
       {
-        Functions[mtc.Groups[1].Value].Add(mtc.Groups[2].Value.Split(",").Select(int.Parse).ToList());
+        Functions.Add(new D3Function
+        {
+          Name = mtc.Groups[1].Value,
+          Index = mtc.Index + mtc.Groups[1].Length,
+          Params = mtc.Groups[2].Value.Split(",").Select(int.Parse).ToArray()
+        });
       }
     }
-
-    int answer = 0;
 
     // Part 1 wants all the muls with two parameters.
-    foreach (List<int> paramList in Functions.Where(kvp => kvp.Key.EndsWith("mul")).SelectMany(kvp => kvp.Value))
+    Part1Answer = Functions
+      .Where(f => f.Name.EndsWith("mul") && f.Params.Length == 2)
+      .Select(f => f.Params[0] * f.Params[1])
+      .Sum()
+      .ToString();
+
+    // Part 2 wants something more involved
+    int answer = 0;
+    bool on = true;
+    foreach (var function in Functions)
     {
-      if (paramList.Count == 2)
+      if (function.Name.EndsWith("do")) on = true;
+      else if (function.Name.EndsWith("don't")) on = false;
+      else if (function.Name.EndsWith("mul") && on)
       {
-        answer += paramList[0] * paramList[1];
+        if (function.Params.Length == 2) answer += function.Params[0] * function.Params[1];
       }
     }
 
-    Part1Answer = answer.ToString();
+    Part2Answer = answer.ToString();
   }
+}
+
+public readonly struct D3Function
+{
+  public required string Name { get; init; }
+  public required int Index { get; init; }
+  public required int[] Params { get; init; }
 }
