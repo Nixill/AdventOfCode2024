@@ -6,39 +6,65 @@ namespace Nixill.AdventOfCode;
 public class Day2 : AdventDay
 {
   int SafeLines = 0;
+  int SafeLinesWithDampener = 0;
 
   public override void Run()
   {
     foreach (string line in InputStream.GetLines())
     {
-      bool? up = null;
-      foreach (var mtcs in Regexes.Number.Matches(line).Pairs())
-      {
-        int left = int.Parse(mtcs.Item1.Value);
-        int right = int.Parse(mtcs.Item2.Value);
+      int[] numbers = Regexes.Number.Matches(line).Select(m => int.Parse(m.Value)).ToArray();
 
-        if (left > right)
-        {
-          if (up == true) goto nextLine;
-          if (left - right > 3) goto nextLine;
-          up = false;
-        }
-        else if (left < right)
-        {
-          if (up == false) goto nextLine;
-          if (right - left > 3) goto nextLine;
-          up = true;
-        }
-        else if (left == right)
-        {
-          goto nextLine;
-        }
+      (bool isSafe, int index) = IsSafeLine(numbers);
+
+      if (isSafe)
+      {
+        SafeLines += 1;
+        SafeLinesWithDampener += 1;
+
+        continue;
       }
 
-      SafeLines += 1;
-    nextLine:;
+      if (IsSafeLine(numbers[..index].Concat(numbers[(index + 1)..])).Safe
+        || IsSafeLine(numbers[..(index - 1)].Concat(numbers[index..])).Safe)
+        SafeLinesWithDampener += 1;
     }
 
     Part1Answer = SafeLines.ToString();
+    Part2Answer = SafeLinesWithDampener.ToString();
+  }
+
+  private static (bool Safe, int Where) IsSafeLine(IEnumerable<int> numbers)
+  {
+    int? last = null;
+    bool? up = null;
+
+    foreach ((int now, int index) in numbers.WithIndex())
+    {
+      // First: Go through line without dampener.
+      if (!last.HasValue)
+      {
+        last = now;
+        continue;
+      }
+
+      if (last > now)
+      {
+        if (up == true) return (false, index);
+        if (last - now > 3) return (false, index);
+        up = false;
+      }
+      else if (last < now)
+      {
+        if (up == false) return (false, index);
+        if (now - last > 3) return (false, index);
+        up = true;
+      }
+      else if (last == now)
+      {
+        return (false, index);
+      }
+    }
+
+    return (true, -1);
   }
 }
