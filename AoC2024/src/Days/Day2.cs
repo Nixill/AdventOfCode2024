@@ -63,6 +63,8 @@ public class Day2 : AdventDay
       {
         return (false, index);
       }
+
+      last = now;
     }
 
     return (true, -1);
