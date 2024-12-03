@@ -25,7 +25,8 @@ public class Day2 : AdventDay
       }
 
       if (IsSafeLine(numbers[..index].Concat(numbers[(index + 1)..])).Safe
-        || IsSafeLine(numbers[..(index - 1)].Concat(numbers[index..])).Safe)
+        || IsSafeLine(numbers[..(index - 1)].Concat(numbers[index..])).Safe
+        || (index >= 2 && IsSafeLine(numbers[..(index - 2)].Concat(numbers[(index - 1)..])).Safe))
         SafeLinesWithDampener += 1;
     }
 
