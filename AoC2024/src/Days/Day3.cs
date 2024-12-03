@@ -28,7 +28,7 @@ public class Day3 : AdventDay
     int answer = 0;
 
     // Part 1 wants all the muls with two parameters.
-    foreach (List<int> paramList in Functions["mul"])
+    foreach (List<int> paramList in Functions.Where(kvp => kvp.Key.EndsWith("mul")).SelectMany(kvp => kvp.Value))
     {
       if (paramList.Count == 2)
       {
