@@ -67,8 +67,8 @@ public class Day4 : AdventDay
   }
 
   static bool Xmas(char[][] grid, int r, int c)
-    => ((grid[r-1][c-1] == 'X' && grid[r+1][c+1] == 'S')
-    || (grid[r+1][c+1] == 'X' && grid[r-1][c-1] == 'S'))
-    && ((grid[r-1][c+1] == 'X' && grid[r+1][c-1] == 'S')
-    || (grid[r+1][c-1] == 'X' && grid[r-1][c+1] == 'S'));
+    => ((grid[r-1][c-1] == 'M' && grid[r+1][c+1] == 'S')
+    || (grid[r+1][c+1] == 'M' && grid[r-1][c-1] == 'S'))
+    && ((grid[r-1][c+1] == 'M' && grid[r+1][c-1] == 'S')
+    || (grid[r+1][c-1] == 'M' && grid[r-1][c+1] == 'S'));
 }
