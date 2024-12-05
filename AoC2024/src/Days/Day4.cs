@@ -14,7 +14,8 @@ public class Day4 : AdventDay
       .Append(Enumerable.Repeat('.', gridBase.First().Length).ToArray())
       .ToArray();
 
-    int answer = 0;
+    int answer1 = 0;
+    int answer2 = 0;
 
     for (int r = 0; r < grid.Length; r++)
     {
@@ -22,12 +23,18 @@ public class Day4 : AdventDay
       {
         if (grid[r][c] == 'X')
         {
-          answer += Find(grid, r, c, "XMAS");
+          answer1 += Find(grid, r, c, "XMAS");
+        }
+
+        if (grid[r][c] == 'A')
+        {
+          answer2 += Xmas(grid, r, c);
         }
       }
     }
 
-    Part1Answer = answer.ToString();
+    Part1Answer = answer1.ToString();
+    Part2Answer = answer2.ToString();
   }
 
   static int Find(char[][] grid, int r, int c, string word)
@@ -57,5 +64,10 @@ public class Day4 : AdventDay
       c += dc;
     }
     return true;
+  }
+
+  static int Xmas(char[][] grid, int r, int c)
+  {
+    
   }
 }
