@@ -28,7 +28,7 @@ public class Day4 : AdventDay
 
         if (grid[r][c] == 'A')
         {
-          answer2 += Xmas(grid, r, c);
+          answer2 += Xmas(grid, r, c) ? 1 : 0;
         }
       }
     }
@@ -66,8 +66,9 @@ public class Day4 : AdventDay
     return true;
   }
 
-  static int Xmas(char[][] grid, int r, int c)
-  {
-    
-  }
+  static bool Xmas(char[][] grid, int r, int c)
+    => ((grid[r-1][c-1] == 'X' && grid[r+1][c+1] == 'S')
+    || (grid[r+1][c+1] == 'X' && grid[r-1][c-1] == 'S'))
+    && ((grid[r-1][c+1] == 'X' && grid[r+1][c-1] == 'S')
+    || (grid[r+1][c-1] == 'X' && grid[r-1][c+1] == 'S'));
 }
