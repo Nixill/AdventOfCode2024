@@ -36,14 +36,18 @@ public class Day5 : AdventDay
     }
 
     int answer1 = 0;
+    int answer2 = 0;
 
     foreach (IEnumerable<int> ints in InputStream.GetLinesOfChunk()
       .Select(s => s.Split(",").Select(int.Parse)))
     {
       if (ints.Pairs().All(p => IsCorrectlySorted(p.Item1, p.Item2)))
         answer1 += ints.Middle(true);
+      else
+        answer2 += ints.Order(Comparer<int>.Create(GetSortingRule)).Middle(true);
     }
 
     Part1Answer = answer1.ToString();
+    Part2Answer = answer2.ToString();
   }
 }
