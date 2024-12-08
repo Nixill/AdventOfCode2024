@@ -1,3 +1,5 @@
+using Nixill.Collections;
+
 public static class AdventExtensions
 {
   public static IEnumerable<string> GetLines(this StreamReader input)
@@ -52,4 +54,10 @@ public static class AdventExtensions
     variable = input;
     return input;
   }
+
+  public static Grid<char> CharacterGrid(this StreamReader input)
+    => new Grid<char>(input.GetAllLines());
+
+  public static Grid<char> CharacterGridChunk(this StreamReader input)
+    => new Grid<char>(input.GetLinesOfChunk());
 }
