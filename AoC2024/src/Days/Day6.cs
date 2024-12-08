@@ -32,13 +32,14 @@ public class Day6 : AdventDay
     while (true)
     {
       (int X, int Y) nextTile = (GuardPosition.X + GuardDirection.dX, GuardPosition.Y + GuardDirection.dY);
-      if (Obstacles.Contains(nextTile))
+      while (Obstacles.Contains(nextTile))
       {
         ((int X, int Y), (int dX, int dY)) bump = (nextTile, GuardDirection);
         if (Bumps.Contains(bump)) break;
         Bumps.Add(bump);
 
         GuardDirection = RotateRight(GuardDirection);
+        nextTile = (GuardPosition.X + GuardDirection.dX, GuardPosition.Y + GuardDirection.dY);
       }
       GuardPosition = nextTile;
 
