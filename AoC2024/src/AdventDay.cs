@@ -2,8 +2,8 @@ public abstract class AdventDay
 {
   public required StreamReader InputStream { protected get; set; }
 
-  protected string? _Part1Answer;
-  protected string? _Part2Answer;
+  protected string? _Part1Answer = null;
+  protected string? _Part2Answer = null;
 
   public bool Part1Complete { get; private set; } = false;
   public bool Part2Complete { get; private set; } = false;
@@ -12,7 +12,7 @@ public abstract class AdventDay
 
   public string Part1Answer
   {
-    get => Part1Complete ? _Part1Answer! : throw new InvalidOperationException("Part 1 is not yet complete!");
+    get => Part1Complete ? (_Part1Answer ?? _Part1Number.ToString()) : throw new InvalidOperationException("Part 1 is not yet complete!");
     protected set
     {
       _Part1Answer = value;
@@ -20,20 +20,9 @@ public abstract class AdventDay
     }
   }
 
-  long P1Num = 0;
-  protected long Part1Number
-  {
-    set
-    {
-      P1Num = value;
-      Part1Answer = value.ToString();
-    }
-    get => P1Num;
-  }
-
   public string Part2Answer
   {
-    get => Part2Complete ? _Part2Answer! : throw new InvalidOperationException("Part 2 is not yet complete!");
+    get => Part2Complete ? (_Part2Answer ?? _Part2Number.ToString()) : throw new InvalidOperationException("Part 2 is not yet complete!");
     protected set
     {
       _Part2Answer = value;
@@ -41,14 +30,26 @@ public abstract class AdventDay
     }
   }
 
-  long P2Num = 0;
-  protected long Part2Number
+  long _Part1Number;
+  long _Part2Number;
+
+  protected long Part1Number
   {
+    get => _Part1Number;
     set
     {
-      P2Num = value;
-      Part2Answer = value.ToString();
+      _Part1Number = value;
+      Part1Complete = true;
     }
-    get => P2Num;
+  }
+
+  protected long Part2Number
+  {
+    get => _Part2Number;
+    set
+    {
+      _Part2Number = value;
+      Part2Complete = true;
+    }
   }
 }

@@ -3,7 +3,7 @@ using Nixill.Utils.Extensions;
 
 namespace Nixill.AdventOfCode;
 
-public class Day6 : AdventDay
+public class Day6B : AdventDay
 {
   HashSet<IntVector2> Obstacles = [];
   HashSet<IntVector2> VisitedPositions = [];
