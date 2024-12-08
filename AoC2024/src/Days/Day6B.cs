@@ -1,5 +1,7 @@
 using Nixill.Utils.Extensions;
 
+namespace Nixill.AdventOfCode;
+
 public class Day6 : AdventDay
 {
   HashSet<IntVector2> Obstacles = [];
