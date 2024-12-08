@@ -7,6 +7,7 @@ public class Day8 : AdventDay
 {
   DictionaryGenerator<char, List<IntVector2>> Nodes = new(new EmptyConstructorGenerator<char, List<IntVector2>>());
   HashSet<IntVector2> Antinodes = [];
+  HashSet<IntVector2> ResonantAntinodes = [];
   int Height;
   int Width;
 
@@ -25,11 +26,18 @@ public class Day8 : AdventDay
     {
       foreach (var pair in list.Combinations(2).Select(e => e.Double()))
       {
-        Antinodes.Add(2 * pair.First - pair.Second);
-        Antinodes.Add(2 * pair.Second - pair.First);
+        IntVector2 offset = pair.Second - pair.First;
+        Antinodes.Add(pair.First - offset);
+        Antinodes.Add(pair.Second + offset);
+
+        for (IntVector2 current = pair.First; grid.IsWithinGrid(current); current -= offset)
+          ResonantAntinodes.Add(current);
+        for (IntVector2 current = pair.Second; grid.IsWithinGrid(current); current += offset)
+          ResonantAntinodes.Add(current);
       }
     }
 
-    Part1Number = Antinodes.Where(p => p.X < Width && p.X >= 0 && p.Y < Height && p.Y >= 0).Count();
+    Part1Number = Antinodes.Where(p => grid.IsWithinGrid(p)).Count();
+    Part2Number = ResonantAntinodes.Count();
   }
 }
