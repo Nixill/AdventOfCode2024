@@ -16,7 +16,7 @@ public class Day8 : AdventDay
 
     (Height, Width) = (grid.Height, grid.Width);
 
-    foreach (var tile in grid.Flatten().Where(t => t.Item != '.'))
+    foreach (var tile in grid.Flatten().Where(t => t.Item != '.' && t.Item != '#'))
     {
       Nodes[tile.Item].Add(tile.Reference);
     }
