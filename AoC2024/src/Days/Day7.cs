@@ -4,6 +4,8 @@ public class Day7 : AdventDay
 {
   public override void Run()
   {
+    Part1Number = 0;
+
     foreach (string line in InputStream.GetLines())
     {
       long answer = long.Parse(line[..(line.IndexOf(':') - 1)]);
