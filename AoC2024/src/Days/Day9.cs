@@ -19,7 +19,7 @@ public class Day9 : AdventDay
     int i = 0;
     int l = blocks.Count - 1;
 
-    while (i < l)
+    while (i <= l)
     {
       if (blocks[i] == -1)
       {
