@@ -8,7 +8,7 @@ public class Day7 : AdventDay
 
     foreach (string line in InputStream.GetLines())
     {
-      long answer = long.Parse(line[..(line.IndexOf(':') - 1)]);
+      long answer = long.Parse(line[..line.IndexOf(':')]);
       long[] numbers = line.Split(' ').Skip(1).Select(long.Parse).ToArray();
 
       if (IsEquationSolvable(numbers, answer)) Part1Number += answer;
