@@ -29,7 +29,7 @@ public class Day9 : AdventDay
         while (blocksP1[l] == -1)
         {
           blocksP1.RemoveAt(l--);
-          if (l < i) return;
+          if (l < i) goto endPart1;
         }
 
         blocksP1[i] = blocksP1[l];
@@ -39,7 +39,9 @@ public class Day9 : AdventDay
       Part1Number += blocksP1[i] * i;
       i++;
     }
-    #endregion
+  #endregion
+
+  endPart1:;
 
     #region Part 2
     AVLTreeDictionary<int, int> blocksP2 = [];
