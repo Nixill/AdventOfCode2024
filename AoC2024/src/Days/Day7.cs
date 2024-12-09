@@ -58,7 +58,7 @@ public class Day7 : AdventDay
   public static long Next10(long input)
   {
     long test = 1;
-    while (test < input) test *= 10;
+    while (test <= input) test *= 10;
     return test;
   }
 }
