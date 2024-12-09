@@ -26,6 +26,7 @@ public class Day9 : AdventDay
         while (blocks[l] == -1)
         {
           blocks.RemoveAt(l--);
+          if (l < i) return;
         }
 
         blocks[i] = blocks[l];
