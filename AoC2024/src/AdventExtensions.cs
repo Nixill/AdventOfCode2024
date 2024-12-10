@@ -60,4 +60,10 @@ public static class AdventExtensions
 
   public static Grid<char> CharacterGridChunk(this StreamReader input)
     => new Grid<char>(input.GetLinesOfChunk());
+
+  public static Grid<T> Grid<T>(this StreamReader input, Func<char, T> mutator)
+    => new Grid<T>(input.GetAllLines().Select(s => s.Select(mutator)));
+
+  public static Grid<T> GridChunk<T>(this StreamReader input, Func<char, T> mutator)
+    => new Grid<T>(input.GetLinesOfChunk().Select(s => s.Select(mutator)));
 }
