@@ -33,7 +33,7 @@ public class Day10 : AdventDay
           count += Trails[rfc2];
         }
         Trails[rfc] = count;
-        if (level == 0) Part1Answer += count;
+        if (level == 0) Part1Number += count;
       }
     }
   }
