@@ -28,7 +28,7 @@ public class Day11 : AdventDay
         n == 0 ? [1] :
         GetMagnitude(n).AssignTo(out int mag) % 2 == 0 ? [Math.DivRem(n, GetNumberWithMagnitude(mag / 2)).AssignTo(out (ulong Quotient, ulong Remainder) divRem).Quotient, divRem.Remainder] :
         [n * 2048]
-      );
+      ).ToArray();
     }
 
     Part1Number = stones.Count();
