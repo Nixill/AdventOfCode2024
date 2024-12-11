@@ -47,19 +47,6 @@ public class Day9 : AdventDay
     AVLTreeDictionary<int, int> blocksP2 = [];
     int cursor = 0;
 
-    Dictionary<int, List<int>> freeSpaces = new Dictionary<int, List<int>>
-    {
-      [1] = [],
-      [2] = [],
-      [3] = [],
-      [4] = [],
-      [5] = [],
-      [6] = [],
-      [7] = [],
-      [8] = [],
-      [9] = []
-    };
-
     foreach (var pair in input
       .Select(c => (int)(c - '0'))
       .Chunk(2)
@@ -67,21 +54,17 @@ public class Day9 : AdventDay
     {
       blocksP2[cursor] = pair.Index;
       cursor += pair.Item[0];
-
       blocksP2[cursor] = -1;
-      int size = pair.Item.ElementAtOrDefault(1);
-      foreach (int sizeKey in Enumerable.Range(1, size))
-      {
-        freeSpaces[sizeKey].Add(cursor);
-      }
-      cursor += size;
+      cursor += pair.Item.ElementAtOrDefault(1);
     }
+
+    int zero = 0; // this line exists just to have a breakpoint I can place *between* the loops
+    zero += 0; // and this one to get rid of the compiler warning
 
     while (cursor > 0)
     {
       (cursor, int fileSize, int fileID) = LowerFile(blocksP2, cursor);
-      (int freeSpace, int freeSpaceSize) = LowestFreeSpace(blocksP2, fileSize, freeSpaces);
-      int freeSpaceSizeDifference = freeSpaceSize - fileSize;
+      int freeSpace = LowestFreeSpace(blocksP2, fileSize, cursor);
 
       if (freeSpace < cursor)
       {
@@ -91,25 +74,13 @@ public class Day9 : AdventDay
 
         blocksP2[freeSpace] = fileID;
         if (!blocksP2.ContainsKey(freeSpace + fileSize)) blocksP2[freeSpace + fileSize] = -1;
-
-        foreach (int sizeKey in Enumerable.Range(1, freeSpaceSize))
-        {
-          if (sizeKey <= freeSpaceSizeDifference)
-          {
-            freeSpaces[sizeKey][0] -= fileSize;
-          }
-          else
-          {
-            freeSpaces[sizeKey].Pop();
-          }
-        }
       }
     }
 
     foreach (var pair in blocksP2.Pairs())
     {
       if (pair.Item1.Value != -1)
-        Part2Number += pair.Item1.Value * Enumerable.Range(pair.Item1.Key, pair.Item2.Key - pair.Item1.Key).Sum();
+        Part2Number += (long)pair.Item1.Value * (long)Enumerable.Range(pair.Item1.Key, pair.Item2.Key - pair.Item1.Key).Sum();
     }
     #endregion
   }
@@ -126,11 +97,18 @@ public class Day9 : AdventDay
     return (lowerEntry.Key, from - lowerEntry.Key, lowerEntry.Value);
   }
 
-  (int Start, int Size) LowestFreeSpace(AVLTreeDictionary<int, int> blocks, int needed, Dictionary<int, List<int>> freeSpaces)
+  int LowestFreeSpace(AVLTreeDictionary<int, int> blocks, int size, int maxIndex)
   {
-    int start = freeSpaces[needed].ElementAtOr(0, blocks.HighestKey());
-    if (!blocks.TryGetHigherDistance(start, out int size)) size = 32767;
+    int start = 0;
 
-    return (start, size);
+    while (start < maxIndex)
+    {
+      int higherKey = blocks.HigherKey(start);
+      if (blocks[start] == -1 && higherKey - start >= size)
+        return start;
+      start = higherKey;
+    }
+
+    return maxIndex;
   }
 }
