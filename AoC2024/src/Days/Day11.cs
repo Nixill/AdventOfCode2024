@@ -13,7 +13,7 @@ public class Day11 : AdventDay
       .Select(t => new KeyValuePair<ulong,int>(t.Item, t.Index + 2))];
   static AVLTreeDictionary<int, ulong> ReverseMagnitudes =
     [.. Magnitudes
-      .Select(kvp => new KeyValuePair<int, ulong>(int.Max(kvp.Value, 1), kvp.Key))];
+      .Select(kvp => new KeyValuePair<int, ulong>(kvp.Value, ulong.Max(kvp.Key, 1)))];
 
   static int GetMagnitude(ulong input) => Magnitudes.FloorEntry(input).Value;
   static ulong GetNumberWithMagnitude(int input) => ReverseMagnitudes[input];
