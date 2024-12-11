@@ -6,18 +6,21 @@ namespace Nixill.AdventOfCode;
 public class Day10 : AdventDay
 {
   Grid<int> Topology = [];
+  Grid<HashSet<GridReference>> ReachablePeaks = [];
   Grid<int> Trails = [];
 
   public override void Run()
   {
     Topology = InputStream.Grid(c => (int)(c - '0'));
     Trails = new Grid<int>(Topology.Width, Topology.Height);
+    ReachablePeaks = new Grid<HashSet<GridReference>>(Topology.Width, Topology.Height);
 
     var referencesByHeight = Topology.Flatten().GroupBy(t => t.Item, t => t.Reference).ToDictionary();
 
     foreach (GridReference rfc in referencesByHeight[9])
     {
       Trails[rfc] = 1;
+      ReachablePeaks[rfc] = [rfc];
     }
 
     for (int level = 8; level >= 0; level--)
@@ -31,9 +34,17 @@ public class Day10 : AdventDay
           .Select(t => t.Reference))
         {
           count += Trails[rfc2];
+          foreach (GridReference rfc3 in ReachablePeaks[rfc2] ?? [])
+          {
+            (ReachablePeaks[rfc] ??= new()).Add(rfc3);
+          }
         }
         Trails[rfc] = count;
-        if (level == 0) Part1Number += count;
+        if (level == 0)
+        {
+          Part1Number += (ReachablePeaks[rfc] ?? []).Count;
+          Part2Number += count;
+        }
       }
     }
   }
