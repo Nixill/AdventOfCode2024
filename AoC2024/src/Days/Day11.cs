@@ -20,13 +20,16 @@ public class Day11 : AdventDay
 
   public override void Run()
   {
-    IEnumerable<ulong> stones = InputStream.GetEverything().Split(' ').Select(ulong.Parse);
+    int runCount = int.Parse(InputStream.ReadLine()!);
 
-    foreach (int i in Enumerable.Range(1, 75))
+    ulong[] stones = InputStream.GetEverything().Split(' ').Select(ulong.Parse).ToArray();
+
+    foreach (int i in Enumerable.Range(1, runCount))
     {
       stones = stones.SelectMany<ulong, ulong>(ProcessStone).ToArray();
-      if (i == 25) Part1Number = stones.Count();
-      if (i == 75) Part2Number = stones.Count();
+      Console.WriteLine($"Ran {i} times, have {stones.Length} stones...");
+      if (i == 25) Part1Number = stones.Length;
+      if (i == 75) Part2Number = stones.Length;
     }
   }
 
