@@ -22,12 +22,12 @@ public class Day11 : AdventDay
   {
     IEnumerable<ulong> stones = InputStream.GetEverything().Split(' ').Select(ulong.Parse);
 
-    foreach (int i in Enumerable.Range(1, 25))
+    foreach (int i in Enumerable.Range(1, 75))
     {
       stones = stones.SelectMany<ulong, ulong>(ProcessStone).ToArray();
+      if (i == 25) Part1Number = stones.Count();
+      if (i == 75) Part2Number = stones.Count();
     }
-
-    Part1Number = stones.Count();
   }
 
   static IEnumerable<ulong> ProcessStone(ulong input)
