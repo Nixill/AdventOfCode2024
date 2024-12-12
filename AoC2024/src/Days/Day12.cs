@@ -1,4 +1,5 @@
 using Nixill.Collections;
+using Nixill.Utils.Extensions;
 
 namespace Nixill.AdventOfCode;
 
@@ -34,97 +35,53 @@ public class Day12 : AdventDay
     }
 
     // Now get perimeters and sides
-    GetInternalEdges(regions, perimeters, sides, false);
-
-    int lastReg1 = -1, lastReg2 = -1;
-
-    int maxX = regions.Width - 1;
-    int maxY = regions.Height - 1;
-
-    for (int x = 0; x <= maxX; x++)
-    {
-      int reg1 = regions[GridReference.XY(x, 0)];
-      perimeters[reg1] += 1;
-      if (reg1 != lastReg1)
-      {
-        sides[reg1] += 1;
-        lastReg1 = reg1;
-      }
-
-      int reg2 = regions[GridReference.XY(x, maxY)];
-      perimeters[reg2] += 1;
-      if (reg2 != lastReg2)
-      {
-        sides[reg2] += 1;
-        lastReg2 = reg2;
-      }
-    }
-
-    lastReg1 = -1; lastReg2 = -1;
-
-    for (int y = 0; y <= maxY; y++)
-    {
-      int reg1 = regions[GridReference.XY(0, y)];
-      perimeters[reg1] += 1;
-      if (reg1 != lastReg1)
-      {
-        sides[reg1] += 1;
-        lastReg1 = reg1;
-      }
-
-      int reg2 = regions[GridReference.XY(maxX, y)];
-      perimeters[reg2] += 1;
-      if (reg2 != lastReg2)
-      {
-        sides[reg2] += 1;
-        lastReg2 = reg2;
-      }
-    }
+    GetEdges(regions, perimeters, sides);
+    GetEdges(regions.GetTransposedGrid(), perimeters, sides);
 
     // and get answer
     Part1Number = areas.Keys.Select(k => (long)perimeters[k] * areas[k]).Sum();
     Part2Number = areas.Keys.Select(k => (long)sides[k] * areas[k]).Sum();
   }
 
-  private static void GetInternalEdges(Grid<int> regions, Dictionary<int, int> perimeters, Dictionary<int, int> sides, bool transposed)
+  private static void GetEdges(IGrid<int> regions, Dictionary<int, int> perimeters, Dictionary<int, int> sides)
   {
-    (int lastReg1, int lastReg2) = (-1, -1);
-    int lastCoord = -1;
-
-    foreach ((int reg1, GridReference rfc1) in (transposed ? regions.FlattenTransposed() : regions.Flatten()))
+    foreach ((IEnumerable<int> r, int y) in regions.Rows.SkipLast(1).WithIndex())
     {
-      if (lastCoord != (transposed ? rfc1.Column : rfc1.Row))
-      {
-        lastReg1 = -1;
-        lastReg2 = -1;
-        lastCoord = (transposed ? rfc1.Column : rfc1.Row);
-      }
+      int lastTop = -1;
+      int lastBot = -1;
 
-      foreach ((int reg2, GridReference rfc2) in regions.NearbyCells(rfc1, [(transposed ? (1, 0) : (0, 1))]))
+      foreach ((int c, int x) in r.WithIndex())
       {
-        if (reg1 != reg2)
+        int top = c;
+        int bot = regions[GridReference.XY(x, y + 1)];
+
+        if (top != bot)
         {
-          perimeters[reg1] += 1;
-          perimeters[reg2] += 1;
-
-          if (lastReg1 != reg1)
-          {
-            sides[reg1] += 1;
-            lastReg1 = reg1;
-          }
-
-          if (lastReg2 != reg2)
-          {
-            sides[reg2] += 1;
-            lastReg2 = reg2;
-          }
+          perimeters[top] += 1;
+          perimeters[bot] += 1;
+          if (top != lastTop) { sides[top] += 1; lastTop = top; }
+          if (bot != lastBot) { sides[bot] += 1; lastBot = bot; }
         }
         else
         {
-          lastReg1 = -1;
-          lastReg2 = -1;
+          lastTop = -1;
+          lastBot = -1;
         }
       }
+    }
+
+    int lastReg = -1;
+    foreach (int region in regions.GetRow(0))
+    {
+      perimeters[region] += 1;
+      if (region != lastReg) { sides[region] += 1; lastReg = region; }
+    }
+
+    lastReg = -1;
+    foreach (int region in regions.GetRow(regions.Height - 1))
+    {
+      perimeters[region] += 1;
+      if (region != lastReg) { sides[region] += 1; lastReg = region; }
     }
   }
 }
