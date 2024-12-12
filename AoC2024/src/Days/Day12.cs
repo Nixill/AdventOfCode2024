@@ -102,19 +102,27 @@ public class Day12 : AdventDay
 
       foreach ((int reg2, GridReference rfc2) in regions.NearbyCells(rfc1, [(transposed ? (1, 0) : (0, 1))]))
       {
-        perimeters[reg1] += 1;
-        perimeters[reg2] += 1;
-
-        if (lastReg1 != reg1)
+        if (reg1 != reg2)
         {
-          sides[reg1] += 1;
-          lastReg1 = reg1;
+          perimeters[reg1] += 1;
+          perimeters[reg2] += 1;
+
+          if (lastReg1 != reg1)
+          {
+            sides[reg1] += 1;
+            lastReg1 = reg1;
+          }
+
+          if (lastReg2 != reg2)
+          {
+            sides[reg2] += 1;
+            lastReg2 = reg2;
+          }
         }
-
-        if (lastReg2 != reg2)
+        else
         {
-          sides[reg2] += 1;
-          lastReg2 = reg2;
+          lastReg1 = -1;
+          lastReg2 = -1;
         }
       }
     }
