@@ -22,8 +22,8 @@ public class Day13 : AdventDay
 
       IEnumerable<(int A, int B)> ways = ListWays(buttonAMove, buttonBMove, prizeLocation).ToArray();
 
-      Part1Answer += ways.Select(t => t.A * 3 + t.B).Order().FirstOrDefault(0);
-      Part2Answer += ways.Count(); // officially guessing what part 2 is
+      Part1Number += ways.Select(t => t.A * 3 + t.B).Order().FirstOrDefault(0);
+      Part2Number += ways.Count(); // officially guessing what part 2 is
     }
   }
 
