@@ -49,6 +49,22 @@ public static class AdventExtensions
     }
   }
 
+  public static IEnumerable<IEnumerable<string>> GetChunksByLine(this StreamReader input)
+  {
+    while (!input.EndOfStream)
+    {
+      yield return input.GetLinesOfChunk();
+    }
+  }
+
+  public static IEnumerable<string> GetWholeChunks(this StreamReader input)
+  {
+    while (!input.EndOfStream)
+    {
+      yield return string.Join('\n', input.GetLinesOfChunk());
+    }
+  }
+
   internal static T AssignTo<T>(this T input, out T variable)
   {
     variable = input;
