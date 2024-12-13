@@ -35,7 +35,7 @@ public class Day13 : AdventDay
     decimal intY = (By / Bx) * intX;
 
     long pressesB = (long)Math.Round(intX / Bx);
-    long pressesA = (long)Math.Round(Tx / (Ax - intX));
+    long pressesA = (long)Math.Round((Tx - intX) / Ax);
 
     // verify by actually doing it
     if (moveB * pressesB + moveA * pressesA == target) return pressesB + 3 * pressesA;
