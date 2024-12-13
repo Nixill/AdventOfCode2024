@@ -12,7 +12,7 @@ public class Day6 : AdventDay
   public override void Run()
   {
     Grid = InputStream.CharacterGrid();
-    foreach ((char c, GridReference p) in Grid.Flatten())
+    foreach ((char c, IntVector2 p) in Grid.Flatten())
     {
       if (c == '#') Obstacles.Add(p);
       else if (c == '^') GuardStart = p;

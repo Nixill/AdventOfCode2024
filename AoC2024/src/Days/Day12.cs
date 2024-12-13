@@ -8,7 +8,7 @@ public class Day12 : AdventDay
   public override void Run()
   {
     Grid<char> plots = InputStream.CharacterGrid();
-    Grid<int> regions = new(plots.Width, plots.Height);
+    Grid<int> regions = new(plots.Width, plots.Height, 0);
 
     int nextRegionNumber = 1;
 
@@ -17,7 +17,7 @@ public class Day12 : AdventDay
     Dictionary<int, int> sides = [];
 
     // Construct region map and get areas
-    foreach ((char chr, GridReference rfc) in plots.Flatten())
+    foreach ((char chr, IntVector2 rfc) in plots.Flatten())
     {
       if (regions[rfc] == 0)
       {
@@ -26,7 +26,7 @@ public class Day12 : AdventDay
         perimeters[regionNumber] = 0;
         sides[regionNumber] = 0;
 
-        foreach ((char chr2, GridReference rfc2) in plots.OrthogonalFloodSelect(rfc, (c, r) => c == chr))
+        foreach ((char chr2, IntVector2 rfc2) in plots.OrthogonalFloodSelect(rfc, (c, r) => c == chr))
         {
           regions[rfc2] = regionNumber;
           areas[regionNumber] += 1;
@@ -53,7 +53,7 @@ public class Day12 : AdventDay
       foreach ((int c, int x) in r.WithIndex())
       {
         int top = c;
-        int bot = regions[GridReference.XY(x, y + 1)];
+        int bot = regions[GridRef.XY(x, y + 1)];
 
         if (top != bot)
         {

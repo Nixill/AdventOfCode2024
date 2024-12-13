@@ -6,18 +6,18 @@ namespace Nixill.AdventOfCode;
 public class Day10 : AdventDay
 {
   Grid<int> Topology = [];
-  Grid<HashSet<GridReference>> ReachablePeaks = [];
+  Grid<HashSet<IntVector2>> ReachablePeaks = [];
   Grid<int> Trails = [];
 
   public override void Run()
   {
     Topology = InputStream.Grid(c => (int)(c - '0'));
-    Trails = new Grid<int>(Topology.Width, Topology.Height);
-    ReachablePeaks = new Grid<HashSet<GridReference>>(Topology.Width, Topology.Height);
+    Trails = new Grid<int>(Topology.Width, Topology.Height, 0);
+    ReachablePeaks = new Grid<HashSet<IntVector2>>(Topology.Width, Topology.Height, () => []);
 
     var referencesByHeight = Topology.Flatten().GroupBy(t => t.Item, t => t.Reference).ToDictionary();
 
-    foreach (GridReference rfc in referencesByHeight[9])
+    foreach (IntVector2 rfc in referencesByHeight[9])
     {
       Trails[rfc] = 1;
       ReachablePeaks[rfc] = [rfc];
@@ -25,16 +25,16 @@ public class Day10 : AdventDay
 
     for (int level = 8; level >= 0; level--)
     {
-      foreach (GridReference rfc in referencesByHeight[level])
+      foreach (IntVector2 rfc in referencesByHeight[level])
       {
         int count = 0;
-        foreach (GridReference rfc2 in Topology
+        foreach (IntVector2 rfc2 in Topology
           .OrthogonallyAdjacentCells(rfc)
           .Where(t => t.Item == level + 1)
           .Select(t => t.Reference))
         {
           count += Trails[rfc2];
-          foreach (GridReference rfc3 in ReachablePeaks[rfc2] ?? [])
+          foreach (IntVector2 rfc3 in ReachablePeaks[rfc2] ?? [])
           {
             (ReachablePeaks[rfc] ??= new()).Add(rfc3);
           }
