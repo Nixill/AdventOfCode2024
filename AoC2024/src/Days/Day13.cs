@@ -7,6 +7,8 @@ public class Day13 : AdventDay
   Regex PushButtonText = new(@"^Button [AB]: X\+(\d+), Y\+(\d+)$");
   Regex PrizeLocationText = new(@"^Prize: X=(\d+), Y=(\d+)");
 
+  static LongVector2 Part2Modifier = new LongVector2(10000000000000, 10000000000000);
+
   public override void Run()
   {
     foreach (string[] chunk in InputStream.GetChunksByLine().Select(c => c.ToArray()))
@@ -20,45 +22,23 @@ public class Day13 : AdventDay
       Match prizeLocRegex = PrizeLocationText.Match(chunk[2]);
       IntVector2 prizeLocation = (int.Parse(prizeLocRegex.Groups[1].Value), int.Parse(prizeLocRegex.Groups[2].Value));
 
-      IEnumerable<(int A, int B)> ways = ListWays(buttonAMove, buttonBMove, prizeLocation).ToArray();
-
-      Part1Number += ways.Select(t => t.A * 3 + t.B).Order().FirstOrDefault(0);
-      Part2Number += ways.Count(); // officially guessing what part 2 is
+      Part1Number += Solve(buttonAMove, buttonBMove, prizeLocation);
+      Part2Number += Solve(buttonAMove, buttonBMove, prizeLocation + Part2Modifier);
     }
   }
 
-  IEnumerable<(int A, int B)> ListWays(IntVector2 moveA, IntVector2 moveB, IntVector2 target)
+  long Solve(LongVector2 moveA, LongVector2 moveB, LongVector2 target)
   {
-    for (int a = 0; a <= 100; a++)
-    {
-      IntVector2 crane = moveA * a;
+    decimal Ax = moveA.X, Ay = moveA.Y, Bx = moveB.X, By = moveB.Y, Tx = target.X, Ty = target.Y;
 
-      if (crane == target)
-      {
-        yield return (a, 0);
-        yield break;
-      }
+    decimal intX = (Ty - (Ay / Ax) * Tx) / (By / Bx - Ay / Ax);
+    decimal intY = (By / Bx) * intX;
 
-      if (crane.X > target.X || crane.Y > target.Y)
-      {
-        yield break;
-      }
+    long pressesB = (long)(intX / Bx);
+    long pressesA = (long)(Tx / (Ax - intX));
 
-      foreach (int b in Enumerable.Range(1, 100))
-      {
-        crane += moveB;
-
-        if (crane == target)
-        {
-          yield return (a, b);
-          break;
-        }
-
-        if (crane.X > target.X || crane.Y > target.Y)
-        {
-          break;
-        }
-      }
-    }
+    // verify by actually doing it
+    if (moveB * pressesB + moveA * pressesA == target) return pressesB + 3 * pressesA;
+    return 0; // unsolvable ones contribute nothing to the total
   }
 }
