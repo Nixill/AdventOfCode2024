@@ -9,7 +9,7 @@ public class Day13 : AdventDay
 
   public override void Run()
   {
-    foreach (string[] chunk in InputStream.GetChunksByLine())
+    foreach (string[] chunk in InputStream.GetChunksByLine().Select(c => c.ToArray()))
     {
       Match pressARegex = PushButtonText.Match(chunk[0]);
       IntVector2 buttonAMove = (int.Parse(pressARegex.Groups[1].Value), int.Parse(pressARegex.Groups[2].Value));
