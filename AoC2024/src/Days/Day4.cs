@@ -8,7 +8,7 @@ public class Day4 : AdventDay
   {
     IEnumerable<char[]> gridBase = InputStream.GetAllLines()
       .Select(s => s.Prepend('.').Append('.').ToArray());
-    
+
     char[][] grid = gridBase
       .Prepend(Enumerable.Repeat('.', gridBase.First().Length).ToArray())
       .Append(Enumerable.Repeat('.', gridBase.First().Length).ToArray())
@@ -33,8 +33,8 @@ public class Day4 : AdventDay
       }
     }
 
-    Part1Answer = answer1.ToString();
-    Part2Answer = answer2.ToString();
+    Part1Number = answer1;
+    Part2Number = answer2;
   }
 
   static int Find(char[][] grid, int r, int c, string word)
@@ -67,8 +67,8 @@ public class Day4 : AdventDay
   }
 
   static bool Xmas(char[][] grid, int r, int c)
-    => ((grid[r-1][c-1] == 'M' && grid[r+1][c+1] == 'S')
-    || (grid[r+1][c+1] == 'M' && grid[r-1][c-1] == 'S'))
-    && ((grid[r-1][c+1] == 'M' && grid[r+1][c-1] == 'S')
-    || (grid[r+1][c-1] == 'M' && grid[r-1][c+1] == 'S'));
+    => ((grid[r - 1][c - 1] == 'M' && grid[r + 1][c + 1] == 'S')
+    || (grid[r + 1][c + 1] == 'M' && grid[r - 1][c - 1] == 'S'))
+    && ((grid[r - 1][c + 1] == 'M' && grid[r + 1][c - 1] == 'S')
+    || (grid[r + 1][c - 1] == 'M' && grid[r - 1][c + 1] == 'S'));
 }

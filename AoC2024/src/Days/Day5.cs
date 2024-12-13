@@ -47,7 +47,7 @@ public class Day5 : AdventDay
         answer2 += ints.Order(Comparer<int>.Create(GetSortingRule)).Middle(true);
     }
 
-    Part1Answer = answer1.ToString();
-    Part2Answer = answer2.ToString();
+    Part1Number = answer1;
+    Part2Number = answer2;
   }
 }

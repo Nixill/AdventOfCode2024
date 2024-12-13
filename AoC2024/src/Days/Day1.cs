@@ -54,7 +54,7 @@ public class Day1 : AdventDay
       Similarity += kvp.Key * kvp.Value * numberCountsRight[kvp.Key];
     }
 
-    Part1Answer = SortedDiffs.ToString();
-    Part2Answer = Similarity.ToString();
+    Part1Number = SortedDiffs;
+    Part2Number = Similarity;
   }
 }

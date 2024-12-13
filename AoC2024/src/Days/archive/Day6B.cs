@@ -63,8 +63,8 @@ public class Day6B : AdventDay
       }
     }
 
-    Part1Answer = VisitedPositions.Count().ToString();
-    Part2Answer = answer2.ToString();
+    Part1Number = VisitedPositions.Count();
+    Part2Number = answer2;
   }
 }
 

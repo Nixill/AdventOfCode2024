@@ -48,7 +48,7 @@ public class Day6A : AdventDay
       VisitedTiles.Add(nextTile);
     }
 
-    Part1Answer = VisitedTiles.Count.ToString();
+    Part1Number = VisitedTiles.Count;
   }
 
   (int dX, int dY) RotateRight((int dX, int dY) from)

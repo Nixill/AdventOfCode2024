@@ -70,7 +70,7 @@ public class Day0 : AdventDay
       }
     }
 
-    Part1Answer = p1sum.ToString();
-    Part2Answer = p2sum.ToString();
+    Part1Number = p1sum;
+    Part2Number = p2sum;
   }
 }

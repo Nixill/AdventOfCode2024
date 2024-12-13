@@ -30,8 +30,8 @@ public class Day2 : AdventDay
         SafeLinesWithDampener += 1;
     }
 
-    Part1Answer = SafeLines.ToString();
-    Part2Answer = SafeLinesWithDampener.ToString();
+    Part1Number = SafeLines;
+    Part2Number = SafeLinesWithDampener;
   }
 
   private static (bool Safe, int Where) IsSafeLine(IEnumerable<int> numbers)

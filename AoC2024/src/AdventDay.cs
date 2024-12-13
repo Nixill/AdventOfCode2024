@@ -2,30 +2,40 @@ public abstract class AdventDay
 {
   public required StreamReader InputStream { protected get; set; }
 
-  protected string? _Part1Answer = null;
-  protected string? _Part2Answer = null;
-
   public bool Part1Complete { get; private set; } = false;
   public bool Part2Complete { get; private set; } = false;
 
   public abstract void Run();
 
+  string? StrIfNotEmpty(string input) => (input == "") ? null : input;
+
   public string Part1Answer
+    => Part1Complete ? (StrIfNotEmpty(_Part1String) ?? _Part1Number.ToString())
+      : throw new InvalidOperationException("Part 1 is not yet complete!");
+
+  public string Part2Answer
+    => Part2Complete ? (StrIfNotEmpty(_Part2String) ?? _Part2Number.ToString())
+      : throw new InvalidOperationException("Part 2 is not yet complete!");
+
+  string _Part1String = "";
+  string _Part2String = "";
+
+  protected string Part1String
   {
-    get => Part1Complete ? (_Part1Answer ?? _Part1Number.ToString()) : throw new InvalidOperationException("Part 1 is not yet complete!");
-    protected set
+    get => _Part1String;
+    set
     {
-      _Part1Answer = value;
+      _Part1String = value;
       Part1Complete = true;
     }
   }
 
-  public string Part2Answer
+  protected string Part2String
   {
-    get => Part2Complete ? (_Part2Answer ?? _Part2Number.ToString()) : throw new InvalidOperationException("Part 2 is not yet complete!");
-    protected set
+    get => _Part2String;
+    set
     {
-      _Part2Answer = value;
+      _Part2String = value;
       Part2Complete = true;
     }
   }

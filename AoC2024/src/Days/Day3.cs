@@ -36,11 +36,10 @@ public class Day3 : AdventDay
     }
 
     // Part 1 wants all the muls with two parameters.
-    Part1Answer = Functions
+    Part1Number = Functions
       .Where(f => f.Name.EndsWith("mul") && f.Params.Length == 2)
       .Select(f => f.Params[0] * f.Params[1])
-      .Sum()
-      .ToString();
+      .Sum();
 
     // Part 2 wants something more involved
     int answer = 0;
@@ -55,7 +54,7 @@ public class Day3 : AdventDay
       }
     }
 
-    Part2Answer = answer.ToString();
+    Part2Number = answer;
   }
 }
 
