@@ -20,7 +20,45 @@ public class Day13 : AdventDay
       Match prizeLocRegex = PrizeLocationText.Match(chunk[2]);
       IntVector2 prizeLocation = (int.Parse(prizeLocRegex.Groups[1].Value), int.Parse(prizeLocRegex.Groups[2].Value));
 
-      Console.Write("");
+      IEnumerable<(int A, int B)> ways = ListWays(buttonAMove, buttonBMove, prizeLocation).ToArray();
+
+      Part1Answer += ways.Select(t => t.A * 3 + t.B).Order().FirstOrDefault(0);
+      Part2Answer += ways.Count(); // officially guessing what part 2 is
+    }
+  }
+
+  IEnumerable<(int A, int B)> ListWays(IntVector2 moveA, IntVector2 moveB, IntVector2 target)
+  {
+    for (int a = 0; a <= 100; a++)
+    {
+      IntVector2 crane = moveA * a;
+
+      if (crane == target)
+      {
+        yield return (a, 0);
+        yield break;
+      }
+
+      if (crane.X > target.X || crane.Y > target.Y)
+      {
+        yield break;
+      }
+
+      foreach (int b in Enumerable.Range(1, 100))
+      {
+        crane += moveB;
+
+        if (crane == target)
+        {
+          yield return (a, b);
+          break;
+        }
+
+        if (crane.X > target.X || crane.Y > target.Y)
+        {
+          break;
+        }
+      }
     }
   }
 }
