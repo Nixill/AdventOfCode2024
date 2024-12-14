@@ -1,5 +1,6 @@
 using System.Text.RegularExpressions;
 using Nixill.Utils;
+using Nixill.Utils.Extensions;
 
 namespace Nixill.AdventOfCode;
 
@@ -8,8 +9,8 @@ public class Day14 : AdventDay
   public override void Run()
   {
     string roomSizeLine = InputStream.ReadLine()!;
-    int x = roomSizeLine.IndexOf('x');
-    IntVector2 roomSize = (int.Parse(roomSizeLine[0..x]), int.Parse(roomSizeLine[(x + 1)..]));
+    int xPos = roomSizeLine.IndexOf('x');
+    IntVector2 roomSize = (int.Parse(roomSizeLine[0..xPos]), int.Parse(roomSizeLine[(xPos + 1)..]));
 
     D14Robot[] robots = InputStream.GetAllLines().Select(l => new D14Robot(l)).ToArray();
 
@@ -25,17 +26,26 @@ public class Day14 : AdventDay
 
     int maxSteps = (int)NumberUtils.LCM(roomSize.X, roomSize.Y);
 
+    using StreamWriter output = new(File.OpenWrite($"AoC2024Data/day14/outputs/{InputFilename}"));
+
     foreach (int i in Enumerable.Range(0, maxSteps))
     {
-      var groups = robots.Select(r => r.PositionAfter(100, roomSize))
-        .GroupBy(p => p);
+      var positionSet = robots.Select(r => r.PositionAfter(i, roomSize)).ToHashSet();
+      output.WriteLine(i);
 
-      if (groups.All(g => g.Count() == 1))
+      foreach (int y in Enumerable.Range(0, roomSize.Y))
       {
-        Part2Number = i;
-        return;
+        output.WriteLine(Enumerable
+          .Range(0, roomSize.X)
+          .Select(x => positionSet.Contains((x, y)) ? '█' : ' ')
+          .FormString());
       }
+
+      output.WriteLine(new string('-', roomSize.X));
     }
+
+    output.Flush();
+    output.Close();
   }
 }
 

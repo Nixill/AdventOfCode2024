@@ -89,9 +89,10 @@ public static class Program
       string fname = new FileInfo(fpath).Name;
 
       Stopwatch watch = new();
-      watch.Start();
       AdventDay day = newAdventDay();
       day.InputStream = input;
+      day.InputFilename = fname;
+      watch.Start();
       day.Run();
       watch.Stop();
       day.InputStream = null!;

@@ -2,6 +2,8 @@ public abstract class AdventDay
 {
   public required StreamReader InputStream { protected get; set; }
 
+  public required string InputFilename { get; set; }
+
   public bool Part1Complete { get; private set; } = false;
   public bool Part2Complete { get; private set; } = false;
 
