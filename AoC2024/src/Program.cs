@@ -126,9 +126,10 @@ public static class Program
 
       Console.Write("Puzzle input data / ");
 
-      watch.Start();
       AdventDay day = newAdventDay();
       day.InputStream = input;
+      day.InputFilename = "input.txt";
+      watch.Start();
       day.Run();
       watch.Stop();
       day.InputStream = null!;
