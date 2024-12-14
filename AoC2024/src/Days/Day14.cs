@@ -9,13 +9,13 @@ public class Day14 : AdventDay
   {
     string roomSizeLine = InputStream.ReadLine()!;
     int x = roomSizeLine.IndexOf('x');
-    IntVector2 roomSize = (int.Parse(roomSizeLine[0..x]), int.Parse(roomSizeLine[(x + 1)..]));
+    LongVector2 roomSize = (int.Parse(roomSizeLine[0..x]), int.Parse(roomSizeLine[(x + 1)..]));
 
     D14Robot[] robots = InputStream.GetAllLines().Select(l => new D14Robot(l)).ToArray();
 
     var divRemX = Math.DivRem(roomSize.X, 2);
     var divRemY = Math.DivRem(roomSize.Y, 2);
-    IntVector2 roomCenter = (divRemX.Quotient + divRemX.Remainder, divRemY.Quotient + divRemY.Remainder);
+    LongVector2 roomCenter = (divRemX.Quotient + divRemX.Remainder, divRemY.Quotient + divRemY.Remainder);
 
     var robotsByQuadrant = robots
       .Select(r => r.PositionAfter(100, roomSize))
@@ -31,8 +31,8 @@ public readonly struct D14Robot
 {
   static readonly Regex RobotParser = new(@"^p=(\d+),(\d+) v=(-?\d+),(-?\d+)$");
 
-  IntVector2 Position { get; init; }
-  IntVector2 Velocity { get; init; }
+  LongVector2 Position { get; init; }
+  LongVector2 Velocity { get; init; }
 
   public D14Robot(string line)
   {
@@ -41,18 +41,18 @@ public readonly struct D14Robot
     Velocity = (int.Parse(match.Groups[3].Value), int.Parse(match.Groups[4].Value));
   }
 
-  public IntVector2 RawPositionAfter(int steps)
+  public LongVector2 RawPositionAfter(int steps)
     => Position + Velocity * steps;
 
-  public IntVector2 PositionAfter(int steps, IntVector2 roomSize)
+  public LongVector2 PositionAfter(int steps, LongVector2 roomSize)
     => D14Math.NNMod(RawPositionAfter(steps), roomSize);
 
-  public long StepsToLoop(IntVector2 roomSize)
+  public long StepsToLoop(LongVector2 roomSize)
     => NumberUtils.LCM(NumberUtils.LCM(Velocity.X, roomSize.X), NumberUtils.LCM(Velocity.Y, roomSize.Y));
 }
 
 internal static class D14Math
 {
-  public static IntVector2 NNMod(IntVector2 num, IntVector2 den)
+  public static LongVector2 NNMod(LongVector2 num, LongVector2 den)
     => (NumberUtils.NNMod(num.X, den.X), NumberUtils.NNMod(num.Y, den.Y));
 }
