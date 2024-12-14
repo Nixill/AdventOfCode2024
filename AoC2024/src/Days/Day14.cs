@@ -13,14 +13,12 @@ public class Day14 : AdventDay
 
     D14Robot[] robots = InputStream.GetAllLines().Select(l => new D14Robot(l)).ToArray();
 
-    var divRemX = Math.DivRem(roomSize.X, 2);
-    var divRemY = Math.DivRem(roomSize.Y, 2);
-    LongVector2 roomCenter = (divRemX.Quotient + divRemX.Remainder, divRemY.Quotient + divRemY.Remainder);
+    LongVector2 roomCenter = (roomSize.X / 2, roomSize.Y / 2);
 
     var robotsByQuadrant = robots
       .Select(r => r.PositionAfter(100, roomSize))
-      .Where(r => r.X != roomCenter.X && r.Y != roomCenter.Y)
-      .GroupBy(r => (r.X > roomCenter.X, r.Y > roomCenter.Y));
+      .Where(p => p.X != roomCenter.X && p.Y != roomCenter.Y)
+      .GroupBy(p => (p.X > roomCenter.X, p.Y > roomCenter.Y));
 
     Part1Number = robotsByQuadrant
       .Aggregate((long)1, (p, c) => p * c.Count());
