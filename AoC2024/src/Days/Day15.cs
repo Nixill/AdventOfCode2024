@@ -15,7 +15,7 @@ public class Day15 : AdventDay
       '^' => IntVector2.Up,
       'v' or 'V' => IntVector2.Down,
       _ => throw new KeyNotFoundException()
-    }));
+    })).ToArray();
 
     Grid<char> sim1 = Simulate(layout, moves, 5000);
     Part1Number = Calculate(layout);
