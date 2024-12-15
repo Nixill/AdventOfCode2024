@@ -87,6 +87,10 @@ public class Day15 : AdventDay
         {
           MoveBox(grid, box, move);
         }
+
+        grid[target] = '@';
+        grid[robot] = '.';
+        robot = target;
       }
     }
 
