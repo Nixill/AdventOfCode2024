@@ -83,7 +83,10 @@ public class Day15 : AdventDay
           continue;
         }
 
-        MoveBox(grid, firstBox, move);
+        foreach (IntVector2 box in boxesToMove)
+        {
+          MoveBox(grid, box, move);
+        }
       }
     }
 
