@@ -3,7 +3,7 @@ using Nixill.Utils.Extensions;
 
 namespace Nixill.AdventOfCode;
 
-public class Day15 : AdventDay
+public class Day15A : AdventDay
 {
   public override void Run()
   {
