@@ -18,7 +18,7 @@ public class Day15 : AdventDay
     })).ToArray();
 
     Grid<char> sim1 = Simulate(layout, moves, 5000);
-    Part1Number = Calculate(layout);
+    Part1Number = Calculate(sim1);
   }
 
   static Grid<char> Simulate(Grid<char> original, IEnumerable<IntVector2> moveSequence, int pushLimit, char cWall = '#',
