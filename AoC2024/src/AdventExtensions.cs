@@ -1,4 +1,5 @@
 using Nixill.Collections;
+using Nixill.Utils.Extensions;
 
 public static class AdventExtensions
 {
@@ -82,4 +83,7 @@ public static class AdventExtensions
 
   public static Grid<T> GridChunk<T>(this StreamReader input, Func<char, T> mutator)
     => new Grid<T>(input.GetLinesOfChunk().Select(s => s.Select(mutator)));
+
+  public static void PrintGrid(this IGrid<char> chars)
+    => chars.Do(l => Console.WriteLine(l.FormString()));
 }
