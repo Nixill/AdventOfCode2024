@@ -36,9 +36,9 @@ public class Day15 : AdventDay
 
   static IEnumerable<IntVector2> DuplicateMoves(IEnumerable<IntVector2> original)
   {
+    bool isOnRight = false;
     foreach (IntVector2 move in original)
     {
-      bool isOnRight = false;
       if (move == IntVector2.Left)
       {
         if (isOnRight) yield return move;
