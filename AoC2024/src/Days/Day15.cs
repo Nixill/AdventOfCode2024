@@ -75,10 +75,10 @@ public class Day15 : AdventDay
       }
       else if (targetChar == '[' || targetChar == ']')
       {
-        IntVector2 firstBox = target + (targetChar - '[', 0);
+        IntVector2 firstBox = target - ((targetChar - '[') / 2, 0);
         IEnumerable<IntVector2> boxesToMove = RecursiveGetBoxes(grid, firstBox, move);
 
-        if (!boxesToMove.Any(t => grid[t] == '#'))
+        if (boxesToMove.Any(t => grid[t] == '#'))
         {
           continue;
         }
