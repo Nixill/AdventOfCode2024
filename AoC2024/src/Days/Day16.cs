@@ -23,9 +23,12 @@ public class Day16 : AdventDay
 
     Dictionary<D6PosDir, int> scores = new();
 
+    int score = 0;
+    D6PosDir posDir = (startPos, IntVector2.Right);
+
     while (!moveQueue.IsEmpty())
     {
-      (int score, D6PosDir posDir) = moveQueue.LowestValue();
+      (score, posDir) = moveQueue.LowestValue();
       moveQueue.DeleteMin();
 
       if (scores.ContainsKey(posDir) || scores.ContainsKey(posDir.Forward.TurnAround)) continue;
@@ -33,7 +36,8 @@ public class Day16 : AdventDay
       if (posDir.Position == endPos)
       {
         Part1Number = score;
-        return;
+        moveQueue.Clear();
+        break;
       }
 
       scores[posDir] = score;
@@ -53,6 +57,36 @@ public class Day16 : AdventDay
         moveQueue.Add((score + 1000, posDir.TurnRight));
       }
     }
+
+    HashSet<IntVector2> tiles = [];
+
+    moveQueue.Add((score, posDir));
+
+    while (!moveQueue.IsEmpty())
+    {
+      (score, posDir) = moveQueue.HighestValue();
+      moveQueue.DeleteMax();
+
+      tiles.Add(posDir.Position);
+
+      if (scores.TryGetValue(posDir.Backward, out int backScore) && backScore == score - 1)
+      {
+        moveQueue.Add((score - 1, posDir.Backward));
+      }
+
+      if (scores.TryGetValue(posDir.TurnRight, out int rightScore) && rightScore == score - 1000)
+      {
+        moveQueue.Add((score - 1000, posDir.TurnRight));
+      }
+
+      if (scores.TryGetValue(posDir.TurnLeft, out int leftScore) && leftScore == score - 1000)
+      {
+        moveQueue.Add((score - 1000, posDir.TurnLeft));
+      }
+    }
+
+    tiles.Add(startPos); tiles.Add(endPos); // just in case
+    Part2Number = tiles.Count;
   }
 }
 
