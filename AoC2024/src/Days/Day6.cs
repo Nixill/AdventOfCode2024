@@ -79,5 +79,9 @@ public readonly struct D6PosDir
   public D6PosDir TurnRight => new(Position, Direction.RotateRight());
   public D6PosDir Backward => new(Position - Direction, Direction);
   public D6PosDir TurnLeft => new(Position, Direction.RotateLeft());
+  public D6PosDir TurnAround => new(Position, Direction.RotateAround());
   public IntVector2 PosToLeft => Position + Direction.RotateLeft();
+  public IntVector2 PosToRight => Position + Direction.RotateRight();
+
+  public override int GetHashCode() => (Position, Direction).GetHashCode();
 }
