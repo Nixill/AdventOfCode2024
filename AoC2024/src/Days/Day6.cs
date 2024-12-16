@@ -56,4 +56,28 @@ public class Day6 : AdventDay
   }
 }
 
-// "D6PosDir" is defined under Day6B. The type was reused unchanged.
+public readonly struct D6PosDir
+{
+  public IntVector2 Position { get; init; }
+  public IntVector2 Direction { get; init; }
+
+  public int X => Position.X;
+  public int Y => Position.Y;
+  public int dX => Direction.X;
+  public int dY => Direction.Y;
+
+  public D6PosDir(IntVector2 position) => (Position, Direction) = (position, IntVector2.Up);
+
+  public D6PosDir(IntVector2 position, IntVector2 direction) => (Position, Direction) = (position, direction);
+
+  public static implicit operator (IntVector2 Position, IntVector2 Direction)(D6PosDir input)
+    => (input.Position, input.Direction);
+  public static implicit operator D6PosDir((IntVector2 Position, IntVector2 Direction) input)
+    => new(input.Position, input.Direction);
+
+  public D6PosDir Forward => new(Position + Direction, Direction);
+  public D6PosDir TurnRight => new(Position, Direction.RotateRight());
+  public D6PosDir Backward => new(Position - Direction, Direction);
+  public D6PosDir TurnLeft => new(Position, Direction.RotateLeft());
+  public IntVector2 PosToLeft => Position + Direction.RotateLeft();
+}
