@@ -7,26 +7,36 @@ public class Day17 : AdventDay
   static Regex RegisterValue = new Regex(@"Register (.+): (\d+)");
   static Regex ProgramValue = new Regex(@"Program: ((?:\d+,)+\d+)");
 
+  public long A { get; private set; } = 0;
+  public long B { get; private set; } = 0;
+  public long C { get; private set; } = 0;
+
   public int[] Program { get; private set; } = [];
 
   public override void Run(StreamReader input)
   {
     string[] registers = input.GetLinesOfChunk().ToArray();
 
-    long a = GetRegisterValue(registers[0]);
-    long b = GetRegisterValue(registers[1]);
-    long c = GetRegisterValue(registers[2]);
+    A = GetRegisterValue(registers[0]);
+    B = GetRegisterValue(registers[1]);
+    C = GetRegisterValue(registers[2]);
 
     string programLine = input.GetEverything();
     Program = ProgramValue.Match(programLine).Groups[1].Value.Split(",").Select(int.Parse).ToArray();
 
-    Part1String = string.Join(',', RunProgram(a, b, c));
+    Part1String = string.Join(',', RunProgram());
   }
 
   static long GetRegisterValue(string line)
     => long.Parse(RegisterValue.Match(line).Groups[2].Value);
 
   public IEnumerable<int> RunProgram(long a, long b, long c)
+  {
+    (A, B, C) = (a, b, c);
+    return RunProgram();
+  }
+
+  public IEnumerable<int> RunProgram()
   {
     int pointer = 0;
 
@@ -40,28 +50,28 @@ public class Day17 : AdventDay
       switch (opcode)
       {
         case 0: // ADV
-          a = a >> (int)GetComboParam(parameter, a, b, c);
+          A = A >> (int)GetComboParam(parameter, A, B, C);
           break;
         case 1: // BXL
-          b = b ^ parameter;
+          B = B ^ parameter;
           break;
         case 2: // BST
-          b = GetComboParam(parameter, a, b, c) & 7;
+          B = GetComboParam(parameter, A, B, C) & 7;
           break;
         case 3: // JNZ
-          if (a != 0) pointer = parameter;
+          if (A != 0) pointer = parameter;
           break;
         case 4: // BXC
-          b = b ^ c;
+          B = B ^ C;
           break;
         case 5: // OUT
-          yield return (int)GetComboParam(parameter, a, b, c) & 7;
+          yield return (int)GetComboParam(parameter, A, B, C) & 7;
           break;
         case 6: // BDV
-          b = a >> (int)GetComboParam(parameter, a, b, c);
+          B = A >> (int)GetComboParam(parameter, A, B, C);
           break;
         case 7: // CDV
-          c = a >> (int)GetComboParam(parameter, a, b, c);
+          C = A >> (int)GetComboParam(parameter, A, B, C);
           break;
       }
     }
