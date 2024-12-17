@@ -2,7 +2,7 @@ using System.Text.RegularExpressions;
 
 namespace Nixill.AdventOfCode;
 
-public class Day17 : AdventDay
+public class Day17A : AdventDay
 {
   static Regex RegisterValue = new Regex(@"Register (.): (\d+)");
   static Regex ProgramValue = new Regex(@"Program: ((?:\d+,)+\d+)");
@@ -26,27 +26,27 @@ public class Day17 : AdventDay
     int[] output = Run(registers, program).ToArray();
     Part1String = string.Join(',', output);
 
-    if (SkipPart2) return;
+    // if (SkipPart2) return;
 
-    for (int a = 0; true; a++)
-    {
-      registers["A"] = a;
+    // for (int a = 0; true; a++)
+    // {
+    //   registers["A"] = a;
 
-      int i = 0;
-      foreach (int o in Run(registers, program))
-      {
-        if (i >= program.Length) goto nextA;
-        if (o != program[i]) goto nextA;
-        i++;
-      }
+    //   int i = 0;
+    //   foreach (int o in Run(registers, program))
+    //   {
+    //     if (i >= program.Length) goto nextA;
+    //     if (o != program[i]) goto nextA;
+    //     i++;
+    //   }
 
-      if (i < program.Length) goto nextA;
+    //   if (i < program.Length) goto nextA;
 
-      Part2Number = a;
-      break;
+    //   Part2Number = a;
+    //   break;
 
-    nextA:;
-    }
+    // nextA:;
+    // }
   }
 
   static IEnumerable<int> Run(Dictionary<string, long> registers, int[] program)
