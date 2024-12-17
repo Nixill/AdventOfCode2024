@@ -53,7 +53,7 @@ public class Day17 : AdventDay
           b = b ^ parameter;
           break;
         case 2: // BST
-          b = GetComboParam(parameter, a, b, c) & 8;
+          b = GetComboParam(parameter, a, b, c) & 7;
           break;
         case 3: // JNZ
           if (a != 0) pointer = parameter;
@@ -62,7 +62,7 @@ public class Day17 : AdventDay
           b = b ^ c;
           break;
         case 5: // OUT
-          yield return (int)GetComboParam(parameter, a, b, c) & 8;
+          yield return (int)GetComboParam(parameter, a, b, c) & 7;
           break;
         case 6: // BDV
           b = a >> (int)GetComboParam(parameter, a, b, c);
