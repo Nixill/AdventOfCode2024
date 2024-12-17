@@ -1,5 +1,6 @@
 using System.Diagnostics;
 using System.Reflection;
+using Nixill.Utils.Extensions;
 
 namespace Nixill.AdventOfCode;
 
@@ -43,27 +44,10 @@ public static class Program
       return;
     }
 
-    if (!dayType.IsAssignableTo(typeof(AdventDay)))
-    {
-      Console.WriteLine("This day's code isn't an AdventDay!");
-      return;
-    }
-
     if (!Directory.Exists($"{DataFolder}/day{which}"))
     {
-      Console.WriteLine("This day's data directory doesn't exist!");
-      return;
+      throw new DirectoryNotFoundException("This day's data directory doesn't exist!");
     }
-
-    ConstructorInfo? con = dayType.GetConstructor(Type.EmptyTypes);
-    if (con == null)
-    {
-      Console.WriteLine("This day's code doesn't have an empty constructor!");
-      return;
-    }
-
-    // Now we'll start running it for each day.
-    Func<AdventDay> newAdventDay = () => (AdventDay)con.Invoke([]);
 
     // Run all tests first:
     string[] examples = Directory.GetFiles($"{DataFolder}/day{which}", "example*.txt");
@@ -88,28 +72,25 @@ public static class Program
 
       string fname = new FileInfo(fpath).Name;
 
-      Stopwatch watch = new();
-      AdventDay day = newAdventDay();
-      day.InputFilename = fname;
-
       Console.Write($"Test file: {fname} / ");
 
+      List<Action<AdventDay>> preFlightChecks = [];
+
       // set up skips
-      if (p1Answer == @"\SKIP") day.SkipPart1 = true;
+      if (p1Answer == @"\SKIP") preFlightChecks.Add(a => a.SkipPart1 = true);
       else if (p1Answer!.StartsWith(@"\\")) p1Answer = p1Answer[1..];
       else if (p1Answer!.StartsWith(@"\")) throw new InvalidDataException("Unrecognized magic sequence in part 1 answer");
 
-      if (p2Answer == @"\SKIP") day.SkipPart2 = true;
+      if (p2Answer == @"\SKIP") preFlightChecks.Add(a => a.SkipPart2 = true);
       else if (p2Answer!.StartsWith(@"\\")) p2Answer = p2Answer[1..];
       else if (p2Answer!.StartsWith(@"\")) throw new InvalidDataException("Unrecognized magic sequence in part 2 answer");
 
-      watch.Start();
-      day.Run(input);
-      watch.Stop();
+      AdventDay day = RunDay(dayType, fname, input, preFlightChecks);
+
       input.Dispose();
 
       // Output the results
-      Console.WriteLine($"Elapsed time: {watch.ElapsedMilliseconds} ms");
+      Console.WriteLine($"Elapsed time: {day.Watch.ElapsedMilliseconds} ms");
 
       if (day.Part1Complete)
         PrintTestResult(day.Part1Answer, p1Answer, 1, ref p1Pass, ref p1Fail, ref pass);
@@ -131,19 +112,14 @@ public static class Program
 
     // Run the real thing
     {
-      Stopwatch watch = new();
       using StreamReader input = new(File.OpenRead($"{DataFolder}/day{which}/input.txt"));
 
       Console.Write("Puzzle input data / ");
 
-      AdventDay day = newAdventDay();
-      day.InputFilename = "input.txt";
-      watch.Start();
-      day.Run(input);
-      watch.Stop();
+      AdventDay day = RunDay(dayType, "input.txt", input, []);
       input.Dispose();
 
-      Console.WriteLine($"Elapsed time: {watch.ElapsedMilliseconds} ms");
+      Console.WriteLine($"Elapsed time: {day.Watch.ElapsedMilliseconds} ms");
       if (day.Part1Complete)
         Console.WriteLine($"Part 1 answer: {day.Part1Answer}");
       if (day.Part2Complete)
@@ -174,5 +150,37 @@ public static class Program
     {
       Console.WriteLine($"Part {whichPart} / Given answer: {givenAnswer}");
     }
+  }
+
+  public static T RunDay<T>(string filePath, IEnumerable<Action<AdventDay>>? preChecks = null) where T : AdventDay
+    => (T)RunDay(typeof(T), Path.GetFileName(filePath), new StreamReader(filePath), preChecks ?? []);
+
+  public static T RunDay<T>(string fileName, StreamReader input, IEnumerable<Action<AdventDay>>? preChecks = null) where T : AdventDay
+    => (T)RunDay(typeof(T), fileName, input, preChecks ?? []);
+
+  public static AdventDay RunDay(Type dayType, string fileName, StreamReader input, IEnumerable<Action<AdventDay>> preChecks)
+  {
+    // couple more checks
+    if (!dayType.IsAssignableTo(typeof(AdventDay)))
+    {
+      throw new InvalidCastException("The class provided isn't an AdventDay!");
+    }
+
+    ConstructorInfo? con = dayType.GetConstructor(Type.EmptyTypes);
+    if (con == null)
+    {
+      throw new NotSupportedException();
+    }
+
+    // Now we'll start running it for each day.
+    AdventDay day = (AdventDay)con.Invoke([]);
+
+    day.InputFilename = fileName;
+
+    preChecks.DoOn(day);
+
+    day.RunTimed(input);
+
+    return day;
   }
 }

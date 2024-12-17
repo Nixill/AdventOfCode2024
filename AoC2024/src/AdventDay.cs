@@ -1,3 +1,5 @@
+using System.Diagnostics;
+
 public abstract class AdventDay
 {
   public required string InputFilename { get; set; }
@@ -9,6 +11,15 @@ public abstract class AdventDay
   public bool Part2Complete { get; private set; } = false;
 
   public abstract void Run(StreamReader input);
+
+  public Stopwatch Watch { get; private set; } = new();
+
+  public void RunTimed(StreamReader input)
+  {
+    Watch.Start();
+    Run(input);
+    Watch.Stop();
+  }
 
   string? StrIfNotEmpty(string input) => (input == "") ? null : input;
 
