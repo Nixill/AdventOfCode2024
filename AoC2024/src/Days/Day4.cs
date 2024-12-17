@@ -4,9 +4,9 @@ namespace Nixill.AdventOfCode;
 
 public class Day4 : AdventDay
 {
-  public override void Run()
+  public override void Run(StreamReader input)
   {
-    IEnumerable<char[]> gridBase = InputStream.GetAllLines()
+    IEnumerable<char[]> gridBase = input.GetAllLines()
       .Select(s => s.Prepend('.').Append('.').ToArray());
 
     char[][] grid = gridBase

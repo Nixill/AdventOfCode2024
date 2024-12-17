@@ -31,9 +31,9 @@ public class Day1 : AdventDay
 
   int Similarity = 0;
 
-  public override void Run()
+  public override void Run(StreamReader input)
   {
-    foreach (string line in InputStream.GetLines())
+    foreach (string line in input.GetLines())
     {
       (int left, int right) = Split(line);
       UnsortedDiffs += Math.Abs(left - right);

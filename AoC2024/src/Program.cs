@@ -90,7 +90,6 @@ public static class Program
 
       Stopwatch watch = new();
       AdventDay day = newAdventDay();
-      day.InputStream = input;
       day.InputFilename = fname;
 
       Console.Write($"Test file: {fname} / ");
@@ -105,9 +104,8 @@ public static class Program
       else if (p2Answer!.StartsWith(@"\")) throw new InvalidDataException("Unrecognized magic sequence in part 2 answer");
 
       watch.Start();
-      day.Run();
+      day.Run(input);
       watch.Stop();
-      day.InputStream = null!;
       input.Dispose();
 
       // Output the results
@@ -139,12 +137,10 @@ public static class Program
       Console.Write("Puzzle input data / ");
 
       AdventDay day = newAdventDay();
-      day.InputStream = input;
       day.InputFilename = "input.txt";
       watch.Start();
-      day.Run();
+      day.Run(input);
       watch.Stop();
-      day.InputStream = null!;
       input.Dispose();
 
       Console.WriteLine($"Elapsed time: {watch.ElapsedMilliseconds} ms");

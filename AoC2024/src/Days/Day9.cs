@@ -6,9 +6,9 @@ namespace Nixill.AdventOfCode;
 
 public class Day9 : AdventDay
 {
-  public override void Run()
+  public override void Run(StreamReader inputStream)
   {
-    string input = InputStream.GetEverything();
+    string input = inputStream.GetEverything();
 
     #region Part 1
     List<int> blocksP1 = input

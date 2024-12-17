@@ -2,12 +2,12 @@ namespace Nixill.AdventOfCode;
 
 public class Day7 : AdventDay
 {
-  public override void Run()
+  public override void Run(StreamReader input)
   {
     Part1Number = 0;
     Part2Number = 0;
 
-    foreach (string line in InputStream.GetLines())
+    foreach (string line in input.GetLines())
     {
       long answer = long.Parse(line[..line.IndexOf(':')]);
       long[] numbers = line.Split(' ').Skip(1).Select(long.Parse).ToArray();

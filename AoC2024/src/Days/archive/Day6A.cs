@@ -13,9 +13,9 @@ public class Day6A : AdventDay
   int Width = 0;
   int Height = 0;
 
-  public override void Run()
+  public override void Run(StreamReader input)
   {
-    foreach ((string line, int Y) in InputStream.GetAllLines().WithIndex())
+    foreach ((string line, int Y) in input.GetAllLines().WithIndex())
     {
       foreach ((char c, int X) in line.WithIndex())
       {

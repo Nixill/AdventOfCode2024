@@ -25,9 +25,9 @@ public class Day5 : AdventDay
     return GetSortingRule(first, second) <= 0;
   }
 
-  public override void Run()
+  public override void Run(StreamReader input)
   {
-    foreach ((int first, int second) in InputStream
+    foreach ((int first, int second) in input
       .GetLinesOfChunk()
       .Select(s => s.Split("|").Select(int.Parse))
       .Select(e => (e.First(), e.Last())))
@@ -38,7 +38,7 @@ public class Day5 : AdventDay
     int answer1 = 0;
     int answer2 = 0;
 
-    foreach (IEnumerable<int> ints in InputStream.GetLinesOfChunk()
+    foreach (IEnumerable<int> ints in input.GetLinesOfChunk()
       .Select(s => s.Split(",").Select(int.Parse)))
     {
       if (ints.Pairs().All(p => IsCorrectlySorted(p.Item1, p.Item2)))

@@ -9,9 +9,9 @@ public class Day3 : AdventDay
 
   List<D3Function> Functions = [];
 
-  public override void Run()
+  public override void Run(StreamReader inputStream)
   {
-    string input = InputStream.GetEverything();
+    string input = inputStream.GetEverything();
 
     foreach (Match mtc in FunctionParser.Matches(input))
     {

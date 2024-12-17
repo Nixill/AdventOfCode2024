@@ -1,7 +1,5 @@
 public abstract class AdventDay
 {
-  public required StreamReader InputStream { protected get; set; }
-
   public required string InputFilename { get; set; }
 
   public bool SkipPart1 { get; internal set; } = false;
@@ -10,7 +8,7 @@ public abstract class AdventDay
   public bool Part1Complete { get; private set; } = false;
   public bool Part2Complete { get; private set; } = false;
 
-  public abstract void Run();
+  public abstract void Run(StreamReader input);
 
   string? StrIfNotEmpty(string input) => (input == "") ? null : input;
 

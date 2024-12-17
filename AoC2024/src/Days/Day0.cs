@@ -33,12 +33,12 @@ public class Day0 : AdventDay
     ["0"] = 0
   };
 
-  public override void Run()
+  public override void Run(StreamReader input)
   {
     int p1sum = 0;
     int p2sum = 0;
 
-    foreach (string line in InputStream.GetLines())
+    foreach (string line in input.GetLines())
     {
       Match mtc;
       int number = 0;

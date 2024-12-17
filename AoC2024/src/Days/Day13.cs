@@ -9,9 +9,9 @@ public class Day13 : AdventDay
 
   static LongVector2 Part2Modifier = new LongVector2(10000000000000, 10000000000000);
 
-  public override void Run()
+  public override void Run(StreamReader input)
   {
-    foreach (string[] chunk in InputStream.GetChunksByLine().Select(c => c.ToArray()))
+    foreach (string[] chunk in input.GetChunksByLine().Select(c => c.ToArray()))
     {
       Match pressARegex = PushButtonText.Match(chunk[0]);
       LongVector2 buttonAMove = (int.Parse(pressARegex.Groups[1].Value), int.Parse(pressARegex.Groups[2].Value));

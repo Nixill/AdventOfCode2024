@@ -5,9 +5,9 @@ namespace Nixill.AdventOfCode;
 
 public class Day12 : AdventDay
 {
-  public override void Run()
+  public override void Run(StreamReader input)
   {
-    Grid<char> plots = InputStream.CharacterGrid();
+    Grid<char> plots = input.CharacterGrid();
     Grid<int> regions = new(plots.Width, plots.Height, 0);
 
     int nextRegionNumber = 1;

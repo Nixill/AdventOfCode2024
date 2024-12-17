@@ -5,9 +5,9 @@ namespace Nixill.AdventOfCode;
 
 public class Day16 : AdventDay
 {
-  public override void Run()
+  public override void Run(StreamReader input)
   {
-    Grid<char> maze = InputStream.CharacterGrid();
+    Grid<char> maze = input.CharacterGrid();
 
     IntVector2 startPos = maze.IndexOf('S')!.Value;
     IntVector2 endPos = maze.IndexOf('E')!.Value;

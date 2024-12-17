@@ -19,9 +19,9 @@ public class Day11 : AdventDay
   static int GetMagnitude(ulong input) => Magnitudes.FloorEntry(input).Value;
   static ulong GetNumberWithMagnitude(int input) => ReverseMagnitudes[input];
 
-  public override void Run()
+  public override void Run(StreamReader input)
   {
-    ulong[] stones = InputStream.GetEverything().Split(' ').Select(ulong.Parse).ToArray();
+    ulong[] stones = input.GetEverything().Split(' ').Select(ulong.Parse).ToArray();
 
     Part1Number = (long)stones.Select(s => RecursiveCountStones(s, 25)).Sum();
     Part2Number = (long)stones.Select(s => RecursiveCountStones(s, 75)).Sum();

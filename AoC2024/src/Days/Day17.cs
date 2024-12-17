@@ -7,10 +7,10 @@ public class Day17 : AdventDay
   static Regex RegisterValue = new Regex(@"Register (.): (\d+)");
   static Regex ProgramValue = new Regex(@"Program: ((?:\d+,)+\d+)");
 
-  public override void Run()
+  public override void Run(StreamReader input)
   {
     Dictionary<string, long> registers = [];
-    foreach (string line in InputStream.GetLinesOfChunk())
+    foreach (string line in input.GetLinesOfChunk())
     {
       Match mtc = RegisterValue.Match(line);
       string register = mtc.Groups[1].Value;
@@ -19,7 +19,7 @@ public class Day17 : AdventDay
       registers[register] = long.Parse(value);
     }
 
-    string programLine = InputStream.GetEverything();
+    string programLine = input.GetEverything();
     Match programMatch = ProgramValue.Match(programLine);
     int[] program = programMatch.Groups[1].Value.Split(",").Select(int.Parse).ToArray();
 

@@ -8,9 +8,9 @@ public class Day2 : AdventDay
   int SafeLines = 0;
   int SafeLinesWithDampener = 0;
 
-  public override void Run()
+  public override void Run(StreamReader input)
   {
-    foreach (string line in InputStream.GetLines())
+    foreach (string line in input.GetLines())
     {
       int[] numbers = Regexes.Number.Matches(line).Select(m => int.Parse(m.Value)).ToArray();
 

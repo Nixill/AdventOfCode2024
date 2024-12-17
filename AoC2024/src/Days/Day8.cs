@@ -11,9 +11,9 @@ public class Day8 : AdventDay
   int Height;
   int Width;
 
-  public override void Run()
+  public override void Run(StreamReader input)
   {
-    Grid<char> grid = InputStream.CharacterGrid();
+    Grid<char> grid = input.CharacterGrid();
 
     (Height, Width) = (grid.Height, grid.Width);
 

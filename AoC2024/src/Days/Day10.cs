@@ -9,9 +9,9 @@ public class Day10 : AdventDay
   Grid<HashSet<IntVector2>> ReachablePeaks = [];
   Grid<int> Trails = [];
 
-  public override void Run()
+  public override void Run(StreamReader input)
   {
-    Topology = InputStream.Grid(c => (int)(c - '0'));
+    Topology = input.Grid(c => (int)(c - '0'));
     Trails = new Grid<int>(Topology.Width, Topology.Height, 0);
     ReachablePeaks = new Grid<HashSet<IntVector2>>(Topology.Width, Topology.Height, () => []);
 

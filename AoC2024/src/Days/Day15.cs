@@ -5,9 +5,9 @@ namespace Nixill.AdventOfCode;
 
 public class Day15 : AdventDay
 {
-  public override void Run()
+  public override void Run(StreamReader input)
   {
-    Grid<char> layout = new(InputStream.CharacterGridChunk().Select(
+    Grid<char> layout = new(input.CharacterGridChunk().Select(
       r => r.SelectMany(c => c switch
       {
         '#' => "##",
@@ -18,7 +18,7 @@ public class Day15 : AdventDay
       })
     ));
 
-    IEnumerable<IntVector2> moves = InputStream.GetEverything().SelectUnerrored(c => (c switch
+    IEnumerable<IntVector2> moves = input.GetEverything().SelectUnerrored(c => (c switch
     {
       '<' => IntVector2.Left,
       '>' => IntVector2.Right,

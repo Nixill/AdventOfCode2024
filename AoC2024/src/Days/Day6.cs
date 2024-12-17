@@ -9,9 +9,9 @@ public class Day6 : AdventDay
   Grid<char> Grid = [];
   HashSet<IntVector2> VisitedTiles = [];
 
-  public override void Run()
+  public override void Run(StreamReader input)
   {
-    Grid = InputStream.CharacterGrid();
+    Grid = input.CharacterGrid();
     foreach ((char c, IntVector2 p) in Grid.Flatten())
     {
       if (c == '#') Obstacles.Add(p);

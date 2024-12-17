@@ -6,13 +6,13 @@ namespace Nixill.AdventOfCode;
 
 public class Day14 : AdventDay
 {
-  public override void Run()
+  public override void Run(StreamReader input)
   {
-    string roomSizeLine = InputStream.ReadLine()!;
+    string roomSizeLine = input.ReadLine()!;
     int xPos = roomSizeLine.IndexOf('x');
     IntVector2 roomSize = (int.Parse(roomSizeLine[0..xPos]), int.Parse(roomSizeLine[(xPos + 1)..]));
 
-    D14Robot[] robots = InputStream.GetAllLines().Select(l => new D14Robot(l)).ToArray();
+    D14Robot[] robots = input.GetAllLines().Select(l => new D14Robot(l)).ToArray();
 
     IntVector2 roomCenter = (roomSize.X / 2, roomSize.Y / 2);
 

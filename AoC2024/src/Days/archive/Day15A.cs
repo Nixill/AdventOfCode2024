@@ -5,10 +5,10 @@ namespace Nixill.AdventOfCode;
 
 public class Day15A : AdventDay
 {
-  public override void Run()
+  public override void Run(StreamReader input)
   {
-    Grid<char> layout = InputStream.CharacterGridChunk();
-    IEnumerable<IntVector2> moves = InputStream.GetEverything().SelectUnerrored(c => (c switch
+    Grid<char> layout = input.CharacterGridChunk();
+    IEnumerable<IntVector2> moves = input.GetEverything().SelectUnerrored(c => (c switch
     {
       '<' => IntVector2.Left,
       '>' => IntVector2.Right,
