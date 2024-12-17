@@ -23,17 +23,37 @@ public class Day17 : AdventDay
     Match programMatch = ProgramValue.Match(programLine);
     int[] program = programMatch.Groups[1].Value.Split(",").Select(int.Parse).ToArray();
 
-    int[] output = SimulatePart1(registers, program).ToArray();
+    int[] output = Run(registers, program).ToArray();
     Part1String = string.Join(',', output);
+
+    if (SkipPart2) return;
+
+    for (int a = 0; true; a++)
+    {
+      registers["A"] = a;
+
+      int i = 0;
+      foreach (int o in Run(registers, program))
+      {
+        if (i >= program.Length) goto nextA;
+        if (o != program[i]) goto nextA;
+        i++;
+      }
+
+      if (i < program.Length) goto nextA;
+
+      Part2Number = a;
+      break;
+
+    nextA:;
+    }
   }
 
-  static IEnumerable<int> SimulatePart1(Dictionary<string, long> registers, int[] program)
+  static IEnumerable<int> Run(Dictionary<string, long> registers, int[] program)
   {
     long a = registers["A"];
     long b = registers["B"];
     long c = registers["C"];
-
-    program = program.ToArray();
 
     int pointer = 0;
 
