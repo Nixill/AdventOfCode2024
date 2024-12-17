@@ -92,6 +92,18 @@ public static class Program
       AdventDay day = newAdventDay();
       day.InputStream = input;
       day.InputFilename = fname;
+
+      Console.Write($"Test file: {fname} / ");
+
+      // set up skips
+      if (p1Answer == @"\SKIP") day.SkipPart1 = true;
+      else if (p1Answer!.StartsWith(@"\\")) p1Answer = p1Answer[1..];
+      else if (p1Answer!.StartsWith(@"\")) throw new InvalidDataException("Unrecognized magic sequence in part 1 answer");
+
+      if (p1Answer == @"\SKIP") day.SkipPart2 = true;
+      else if (p1Answer!.StartsWith(@"\\")) p1Answer = p1Answer[1..];
+      else if (p1Answer!.StartsWith(@"\")) throw new InvalidDataException("Unrecognized magic sequence in part 2 answer");
+
       watch.Start();
       day.Run();
       watch.Stop();
@@ -99,7 +111,7 @@ public static class Program
       input.Dispose();
 
       // Output the results
-      Console.WriteLine($"Test file: {fname} / Elapsed time: {watch.ElapsedMilliseconds} ms");
+      Console.WriteLine($"Elapsed time: {watch.ElapsedMilliseconds} ms");
 
       if (day.Part1Complete)
         PrintTestResult(day.Part1Answer, p1Answer, 1, ref p1Pass, ref p1Fail, ref pass);

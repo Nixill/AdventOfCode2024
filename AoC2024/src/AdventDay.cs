@@ -4,6 +4,9 @@ public abstract class AdventDay
 
   public required string InputFilename { get; set; }
 
+  public bool SkipPart1 { get; internal set; } = false;
+  public bool SkipPart2 { get; internal set; } = false;
+
   public bool Part1Complete { get; private set; } = false;
   public bool Part2Complete { get; private set; } = false;
 
