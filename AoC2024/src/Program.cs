@@ -100,9 +100,9 @@ public static class Program
       else if (p1Answer!.StartsWith(@"\\")) p1Answer = p1Answer[1..];
       else if (p1Answer!.StartsWith(@"\")) throw new InvalidDataException("Unrecognized magic sequence in part 1 answer");
 
-      if (p1Answer == @"\SKIP") day.SkipPart2 = true;
-      else if (p1Answer!.StartsWith(@"\\")) p1Answer = p1Answer[1..];
-      else if (p1Answer!.StartsWith(@"\")) throw new InvalidDataException("Unrecognized magic sequence in part 2 answer");
+      if (p2Answer == @"\SKIP") day.SkipPart2 = true;
+      else if (p2Answer!.StartsWith(@"\\")) p2Answer = p2Answer[1..];
+      else if (p2Answer!.StartsWith(@"\")) throw new InvalidDataException("Unrecognized magic sequence in part 2 answer");
 
       watch.Start();
       day.Run();
