@@ -5,6 +5,7 @@ namespace Nixill.AdventOfCode;
 public class Day17 : AdventDay
 {
   static Regex RegisterValue = new Regex(@"Register (.): (\d+)");
+  static Regex ProgramValue = new Regex(@"Program: ((?:\d+,)+\d+)");
 
   public override void Run()
   {
@@ -18,7 +19,9 @@ public class Day17 : AdventDay
       registers[register] = long.Parse(value);
     }
 
-    int[] program = InputStream.GetEverything().Split(",").Select(int.Parse).ToArray();
+    string programLine = InputStream.GetEverything();
+    Match programMatch = ProgramValue.Match(programLine);
+    int[] program = programMatch.Groups[1].Value.Split(",").Select(int.Parse).ToArray();
 
     int[] output = SimulatePart1(registers, program).ToArray();
     Part1String = string.Join(',', output);
