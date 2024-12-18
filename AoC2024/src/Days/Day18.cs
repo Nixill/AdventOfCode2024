@@ -73,12 +73,6 @@ public class Day18 : AdventDay
       IntVector2 current = currentStepQueue.First();
       currentStepQueue.Remove(current);
 
-      if (current == PlayingFieldSize - (1, 1))
-      {
-        answer = currentStep;
-        break;
-      }
-
       if (steps[current] > currentStep)
       {
         steps[current] = currentStep;
@@ -86,6 +80,12 @@ public class Day18 : AdventDay
         {
           nextStepQueue.Add(next);
         }
+      }
+
+      if (current == PlayingFieldSize - (1, 1))
+      {
+        answer = currentStep;
+        break;
       }
 
       if (currentStepQueue.Count == 0)
