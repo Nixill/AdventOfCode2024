@@ -21,7 +21,7 @@ public class Day18 : AdventDay
     int speed = int.Parse(input.ReadLine()!);
 
     IntVector2[] blocks = input.GetLines()
-      .Select(l => (IntVector2)(l.Split('x').Select(int.Parse).Double()))
+      .Select(l => (IntVector2)(l.Split(',').Select(int.Parse).Double()))
       .ToArray();
 
     // Part 1: 1024 blocks fall instantly, nothing else falls
