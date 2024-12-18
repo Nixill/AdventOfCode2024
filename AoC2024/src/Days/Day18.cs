@@ -42,17 +42,21 @@ public class Day18 : AdventDay
     while (BlocksToFall.Count > 0)
     {
       LastBlockFallen = BlocksToFall.Pop();
-      PlayingField[LastBlockFallen] = '#';
 
       if (PlayingField[LastBlockFallen] == 'O')
       {
         ResetPaths();
+        PlayingField[LastBlockFallen] = '#';
         int test = FindPaths();
         if (test == int.MaxValue)
         {
           Part2String = $"{LastBlockFallen.X},{LastBlockFallen.Y}";
           return;
         }
+      }
+      else
+      {
+        PlayingField[LastBlockFallen] = '#';
       }
     }
 
