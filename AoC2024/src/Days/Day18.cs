@@ -42,6 +42,7 @@ public class Day18 : AdventDay
     while (BlocksToFall.Count > 0)
     {
       LastBlockFallen = BlocksToFall.Pop();
+      PlayingField[LastBlockFallen] = '#';
 
       if (PlayingField[LastBlockFallen] == 'O')
       {
