@@ -31,7 +31,7 @@ public class Day18 : AdventDay
 
     foreach (int i in Enumerable.Range(0, part1Blocks))
     {
-      PlayingField[LastBlockFallen] = '#';
+      PlayingField[BlocksToFall.Pop()] = '#';
     }
 
     Part1Number = FindPaths();
