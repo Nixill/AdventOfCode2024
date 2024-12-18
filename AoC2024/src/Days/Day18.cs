@@ -36,6 +36,9 @@ public class Day18 : AdventDay
 
     Part1Number = FindPaths();
 
+    int zero = 0; // this line exists to have a place I can put a logpoint
+    zero = zero + 0; // and this line exists to kill a warning.
+
     while (BlocksToFall.Count > 0)
     {
       LastBlockFallen = BlocksToFall.Pop();
