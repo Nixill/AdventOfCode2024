@@ -18,14 +18,15 @@ public class Day18 : AdventDay
       .Double(); // convert a two-element enumerable to tuple (70, 70)       │
                  // cast (int, int) to an IntVector2 ────────────────────────┘
 
+    int part1Blocks = int.Parse(input.ReadLine()!);
     int speed = int.Parse(input.ReadLine()!);
 
     IntVector2[] blocks = input.GetLines()
       .Select(l => (IntVector2)(l.Split(',').Select(int.Parse).Double()))
       .ToArray();
 
-    // Part 1: 1024 blocks fall instantly, nothing else falls
-    Part1Number = SimulateGrid(blocks[..1024], 1024);
+    // Part 1: some number of blocks fall instantly, nothing else falls
+    Part1Number = SimulateGrid(blocks[..part1Blocks], part1Blocks);
 
     // Part 2 guess: All blocks fall at a constant rate
     Part2Number = SimulateGrid(blocks, speed);
