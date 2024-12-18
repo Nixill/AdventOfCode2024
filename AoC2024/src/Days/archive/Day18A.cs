@@ -4,7 +4,7 @@ using Nixill.Utils.Extensions;
 
 namespace Nixill.AdventOfCode;
 
-public class Day18 : AdventDay
+public class Day18A : AdventDay
 {
   IntVector2 PlayingFieldSize = (0, 0);
 
@@ -19,7 +19,7 @@ public class Day18 : AdventDay
                  // cast (int, int) to an IntVector2 ────────────────────────┘
 
     int part1Blocks = int.Parse(input.ReadLine()!);
-    int speed = int.Parse(input.ReadLine()!);
+    // int speed = int.Parse(input.ReadLine()!);
 
     IntVector2[] blocks = input.GetLines()
       .Select(l => (IntVector2)(l.Split(',').Select(int.Parse).Double()))
@@ -29,7 +29,7 @@ public class Day18 : AdventDay
     Part1Number = SimulateGrid(blocks[..part1Blocks], part1Blocks);
 
     // Part 2 guess: All blocks fall at a constant rate
-    Part2Number = SimulateGrid(blocks, speed);
+    Part2Number = SimulateGrid(blocks, 1);
   }
 
   public int SimulateGrid(IntVector2[] blocks, int fallingSpeed)
