@@ -34,12 +34,14 @@ public class Day19 : AdventDay
     IRecursiveSet<char> usableStarterPieces = TowelPieces;
     long answer = 0;
 
-    while (true)
+    while (request != "")
     {
       if (!usableStarterPieces.TryGetPrefix(request[..1], out usableStarterPieces!)) return answer;
       request = request[1..];
 
       if (usableStarterPieces.HasEmptyValue) answer += UsablePatterns(request);
     }
+
+    return answer;
   }
 }
