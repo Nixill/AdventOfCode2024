@@ -30,7 +30,7 @@ public class Day19 : AdventDay
 
   public long CountUsablePatterns(string request)
   {
-    if (request == "") return 0;
+    if (request == "") return 1;
     IRecursiveSet<char> usableStarterPieces = TowelPieces;
     long answer = 0;
 
