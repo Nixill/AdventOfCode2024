@@ -26,7 +26,7 @@ public class Day20 : AdventDay
 
     int distance = 1;
 
-    foreach ((char chr, IntVector2 iv2) in Maze.FloodSelect(Start, (c, iv2b) => c == '.', [(0, -1)], GridTransforms.Rotate90))
+    foreach ((char chr, IntVector2 iv2) in Maze.FloodSelect(Start, (c, iv2b) => "S.E".Contains(c), [(0, -1)], GridTransforms.Rotate90))
     {
       Distances[iv2] = distance;
 
