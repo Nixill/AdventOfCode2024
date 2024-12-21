@@ -11,7 +11,7 @@ public class Day21 : AdventDay
   static readonly Grid<char> NumericKeypad;
   static readonly Grid<char> ArrowKeypad;
 
-  static readonly Dictionary<(int Level, char From, char To), List<List<char>>> MoveCache;
+  static readonly Dictionary<(int Level, char From, char To), List<char>> MoveCache;
 
   static Day21()
   {
@@ -33,55 +33,33 @@ public class Day21 : AdventDay
     foreach (string code in input.GetLines())
     {
       int number = int.Parse(code[..^1]);
-      Part1Number += number * GetMoves([code], 2).First().Count();
+      Part1Number += number * GetMoves(code, 2).Count();
     }
   }
 
-  static public IEnumerable<IEnumerable<char>> GetMoves(IEnumerable<IEnumerable<char>> sequence, int level)
-    => sequence.SelectMany(s => s.Prepend('A').Pairs().SelectMany(p => GetMoves(level, p.Item1, p.Item2))).MinManyBy(s => s.Count());
+  static public IEnumerable<char> GetMoves(IEnumerable<char> sequence, int level)
+    => sequence.Prepend('A').Pairs().SelectMany(p => GetMove(level, p.Item1, p.Item2));
 
-  static public IEnumerable<IEnumerable<char>> GetMoves(int level, char from, char to)
-    => MoveCache.GetOrSet((level, from, to), () => GetMovesUncached(level, from, to).Select(i => i.ToList()).ToList());
+  static public IEnumerable<char> GetMove(int level, char from, char to)
+    => MoveCache.GetOrSet((level, from, to), () => GetMoveUncached(level, from, to).ToList());
 
-  static IEnumerable<IEnumerable<char>> GetMovesUncached(int level, char from, char to)
-    => (level == 0) ? GetLevel0Moves(from, to) : GetNotLevel0Moves(level, from, to);
+  static IEnumerable<char> GetMoveUncached(int level, char from, char to)
+    => (level == 0) ? GetLevel0Move(from, to) : GetNotLevel0Move(level, from, to);
 
-  static IEnumerable<IEnumerable<char>> GetLevel0Moves(char from, char to)
+  static IEnumerable<char> GetLevel0Move(char from, char to)
   {
     IntVector2 start = Positions[from];
     IntVector2 end = Positions[to];
-    return GetLevel0Moves(start, end);
+
+    if (end.X > start.X) foreach (int x in Enumerable.Range(1, end.X - start.X)) yield return '→';
+    if (end.X < start.X && (end.X != -2 || start.Y != 0)) foreach (int _ in Enumerable.Range(1, start.X - end.X)) yield return '←';
+    if (end.Y > start.Y) foreach (int y in Enumerable.Range(1, end.Y - start.Y)) yield return '↓';
+    if (end.Y < start.Y) foreach (int y in Enumerable.Range(1, start.Y - end.Y)) yield return '↑';
+    if (end.X < start.X && (end.X == -2 || start.Y == 0)) foreach (int _ in Enumerable.Range(1, start.X - end.X)) yield return '←';
+
+    yield return 'A';
   }
 
-  static IEnumerable<IEnumerable<char>> GetLevel0Moves(IntVector2 start, IntVector2 end)
-  {
-    if (start == end)
-    {
-      yield return ['A'];
-      yield break;
-    }
-
-    if (start.X > end.X && start + IntVector2.Left != (-2, 0))
-    {
-      foreach (var list in GetLevel0Moves(start + IntVector2.Left, end)) yield return list.Prepend('←');
-    }
-
-    if (start.Y > end.Y)
-    {
-      foreach (var list in GetLevel0Moves(start + IntVector2.Up, end)) yield return list.Prepend('↑');
-    }
-
-    if (start.Y < end.Y && start + IntVector2.Down != (-2, 0))
-    {
-      foreach (var list in GetLevel0Moves(start + IntVector2.Down, end)) yield return list.Prepend('↓');
-    }
-
-    if (start.X < end.X)
-    {
-      foreach (var list in GetLevel0Moves(start + IntVector2.Right, end)) yield return list.Prepend('→');
-    }
-  }
-
-  static IEnumerable<IEnumerable<char>> GetNotLevel0Moves(int level, char from, char to)
-    => GetMoves(GetLevel0Moves(from, to), level - 1);
+  static IEnumerable<char> GetNotLevel0Move(int level, char from, char to)
+    => GetMoves(GetLevel0Move(from, to), level - 1);
 }
