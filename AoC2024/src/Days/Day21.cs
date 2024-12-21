@@ -37,16 +37,16 @@ public class Day21 : AdventDay
     }
   }
 
-  public IEnumerable<char> GetMoves(IEnumerable<char> sequence, int level)
+  static public IEnumerable<char> GetMoves(IEnumerable<char> sequence, int level)
     => sequence.Prepend('A').Pairs().SelectMany(p => GetMove(level, p.Item1, p.Item2));
 
-  public IEnumerable<char> GetMove(int level, char from, char to)
+  static public IEnumerable<char> GetMove(int level, char from, char to)
     => MoveCache.GetOrSet((level, from, to), () => GetMoveUncached(level, from, to).ToList());
 
-  IEnumerable<char> GetMoveUncached(int level, char from, char to)
+  static IEnumerable<char> GetMoveUncached(int level, char from, char to)
     => (level == 0) ? GetLevel0Move(from, to) : GetNotLevel0Move(level, from, to);
 
-  IEnumerable<char> GetLevel0Move(char from, char to)
+  static IEnumerable<char> GetLevel0Move(char from, char to)
   {
     IntVector2 start = Positions[from];
     IntVector2 end = Positions[to];
@@ -59,6 +59,6 @@ public class Day21 : AdventDay
     yield return 'A';
   }
 
-  IEnumerable<char> GetNotLevel0Move(int level, char from, char to)
+  static IEnumerable<char> GetNotLevel0Move(int level, char from, char to)
     => GetMoves(GetLevel0Move(from, to), level - 1);
 }
