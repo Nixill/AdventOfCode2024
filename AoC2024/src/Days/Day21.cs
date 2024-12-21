@@ -54,7 +54,7 @@ public class Day21 : AdventDay
     if (end.X > start.X) foreach (int x in Enumerable.Range(1, end.X - start.X)) yield return '→';
     if (end.Y > start.Y) foreach (int y in Enumerable.Range(1, end.Y - start.Y)) yield return '↓';
     if (end.Y < start.Y) foreach (int y in Enumerable.Range(1, start.Y - end.Y)) yield return '↑';
-    if (end.X < start.X) foreach (int _ in Enumerable.Range(1, start.X - end.X)) yield return '→';
+    if (end.X < start.X) foreach (int _ in Enumerable.Range(1, start.X - end.X)) yield return '←';
 
     yield return 'A';
   }
