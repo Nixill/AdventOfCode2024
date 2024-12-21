@@ -34,6 +34,7 @@ public class Day21 : AdventDay
     {
       int number = int.Parse(code[..^1]);
       Part1Number += number * GetMoves(code, 2).Count();
+      Part2Number += number * GetMoves(code, 2).Count();
     }
   }
 
