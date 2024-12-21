@@ -37,6 +37,8 @@ public class Day20 : AdventDay
           Cheats.Add((iv2 + iv2o, iv2 + (iv2o / 2), distance - Distances[iv2 + iv2o] - 2));
         }
       }
+
+      distance++;
     }
 
     Part1Number = Cheats.Where(c => c.Savings >= 100).Count();
