@@ -41,6 +41,6 @@ public class Day20 : AdventDay
       distance++;
     }
 
-    Part1Number = Cheats.Where(c => c.Savings >= 100).Count();
+    Part1Number = Cheats.Where(c => c.Savings >= minimum).Count();
   }
 }
