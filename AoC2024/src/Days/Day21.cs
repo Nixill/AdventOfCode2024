@@ -51,9 +51,10 @@ public class Day21 : AdventDay
     IntVector2 start = Positions[from];
     IntVector2 end = Positions[to];
 
+    if (end.Y > start.Y && (start.X != -2 || end.Y != 0)) foreach (int y in Enumerable.Range(1, end.Y - start.Y)) yield return '↓';
     if (end.X > start.X) foreach (int x in Enumerable.Range(1, end.X - start.X)) yield return '→';
     if (end.X < start.X && (end.X != -2 || start.Y != 0)) foreach (int _ in Enumerable.Range(1, start.X - end.X)) yield return '←';
-    if (end.Y > start.Y) foreach (int y in Enumerable.Range(1, end.Y - start.Y)) yield return '↓';
+    if (end.Y > start.Y && (start.X == -2 && end.Y == 0)) foreach (int y in Enumerable.Range(1, end.Y - start.Y)) yield return '↓';
     if (end.Y < start.Y) foreach (int y in Enumerable.Range(1, start.Y - end.Y)) yield return '↑';
     if (end.X < start.X && (end.X == -2 && start.Y == 0)) foreach (int _ in Enumerable.Range(1, start.X - end.X)) yield return '←';
 
