@@ -33,7 +33,7 @@ public class Day21 : AdventDay
     foreach (string code in input.GetLines())
     {
       int number = int.Parse(code[..^1]);
-      Part1Number += number * GetMoves([code], 2).Count();
+      Part1Number += number * GetMoves([code], 2).First().Count();
     }
   }
 
