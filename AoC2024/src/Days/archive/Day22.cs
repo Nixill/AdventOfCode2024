@@ -17,7 +17,7 @@ public class Day22 : AdventDay
     {
       input = (input ^ (input * 64)) % 16777216;
       input = (input ^ (input / 32)) % 16777216;
-      input = (input ^ (input * 2048)) % 16777216;
+      input = (int)(((long)input ^ ((long)input * 2048)) % 16777216);
       yield return input;
     }
   }
