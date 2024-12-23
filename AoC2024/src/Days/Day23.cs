@@ -23,7 +23,7 @@ public class Day23 : AdventDay
 
     List<(string, string, string)> triplets = [];
 
-    // Code
+    // Part 1 code
     foreach ((string pc1, AVLTreeSet<string> conns) in Connections)
     {
       if (conns.Count < 2) continue;
@@ -35,6 +35,38 @@ public class Day23 : AdventDay
           triplets.Add((pc1, pc2, pc3));
           if (pc1.StartsWith('t') || pc2.StartsWith('t') || pc3.StartsWith('t')) Part1Number += 1;
         }
+      }
+    }
+
+    // Part 2 code
+    var lanParty = GetAllNetworks();
+    Part2String = lanParty.MaxBy(n => n.Count())!.StringJoin(",");
+  }
+
+  IEnumerable<IEnumerable<string>> GetAllNetworks()
+  {
+    foreach (string pc1 in Connections.Keys)
+    {
+      foreach (IEnumerable<string> network in GetNetworks(pc1, Connections[pc1]))
+      {
+        yield return network.Prepend(pc1);
+      }
+    }
+  }
+
+  IEnumerable<IEnumerable<string>> GetNetworks(string key, IEnumerable<string> set)
+  {
+    if (!set.Any())
+    {
+      yield return [key];
+      yield break;
+    }
+
+    foreach ((string pc2, IEnumerable<string> remainder) in set.Remainders())
+    {
+      foreach (IEnumerable<string> network in GetNetworks(pc2, Connections[pc2].Intersect(remainder)))
+      {
+        yield return network.Prepend(pc2);
       }
     }
   }
