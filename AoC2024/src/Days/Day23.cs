@@ -30,8 +30,11 @@ public class Day23 : AdventDay
 
       foreach ((string pc2, string pc3) in conns.Combinations(2).Select(c => c.Double()))
       {
-        if (Connections.TryGetValue(pc2, out var conns2) && conns2.Contains(pc3)) triplets.Add((pc1, pc2, pc3));
-        if (pc1.StartsWith('t') || pc2.StartsWith('t') || pc3.StartsWith('t')) Part1Number += 1;
+        if (Connections.TryGetValue(pc2, out var conns2) && conns2.Contains(pc3))
+        {
+          triplets.Add((pc1, pc2, pc3));
+          if (pc1.StartsWith('t') || pc2.StartsWith('t') || pc3.StartsWith('t')) Part1Number += 1;
+        }
       }
     }
   }
