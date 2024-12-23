@@ -58,15 +58,22 @@ public class Day23 : AdventDay
   {
     if (!set.Any())
     {
-      yield return [key];
+      yield return [];
       yield break;
     }
 
     foreach ((string pc2, IEnumerable<string> remainder) in set.Remainders())
     {
-      foreach (IEnumerable<string> network in GetNetworks(pc2, Connections[pc2].Intersect(remainder)))
+      if (Connections.ContainsKey(pc2))
       {
-        yield return network.Prepend(pc2);
+        foreach (IEnumerable<string> network in GetNetworks(pc2, Connections[pc2].Intersect(remainder)))
+        {
+          yield return network.Prepend(pc2);
+        }
+      }
+      else
+      {
+        yield return [pc2];
       }
     }
   }
